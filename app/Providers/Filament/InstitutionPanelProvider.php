@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Models\Institution;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -25,8 +26,31 @@ class InstitutionPanelProvider extends PanelProvider
         return $panel
             ->id('institution')
             ->path('institution')
+            ->tenant(Institution::class)
+            ->sidebarCollapsibleOnDesktop()
+            ->topNavigation()
             ->colors([
                 'primary' => Color::Amber,
+                'danger' => Color::Red,
+                'gray' => Color::Zinc,
+                'info' => Color::Blue,
+                'success' => Color::Green,
+                'teal' => Color::Teal,
+                'slate' => Color::Slate,
+                'warning' => Color::Amber,
+                'sky' => Color::Sky,
+                'fuchsia' => Color::Fuchsia,
+                'purple' => Color::Purple,
+                'pink' => Color::Pink,
+                'rose' => Color::Rose,
+                'indigo' => Color::Indigo,
+                'yellow' => Color::Yellow,
+                'orange' => Color::Orange,
+                'cyan' => Color::Cyan,
+                'neutral' => Color::Neutral,
+                'stone' => Color::Stone,
+                'lime' => Color::Lime,
+                'violet' => Color::Violet,
             ])
             ->discoverResources(in: app_path('Filament/Institution/Resources'), for: 'App\\Filament\\Institution\\Resources')
             ->discoverPages(in: app_path('Filament/Institution/Pages'), for: 'App\\Filament\\Institution\\Pages')

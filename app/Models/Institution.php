@@ -38,7 +38,7 @@ class Institution extends Model implements HasMedia
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function campaigns()

@@ -19,8 +19,6 @@ return new class extends Migration
             $table->decimal('latitude', 9, 6);
             $table->decimal('longitude', 9, 6);
             $table->string('status')->default('active');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->on('users')->references('id')->onDelete('cascade');
             $table->timestamps();
         });
     }
