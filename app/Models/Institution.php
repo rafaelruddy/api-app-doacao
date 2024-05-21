@@ -48,6 +48,11 @@ class Institution extends Model implements HasMedia
         return $this->hasMany(Campaign::class);
     }
 
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
 
     const STATUS = [
         'analysis' => 'Análise',

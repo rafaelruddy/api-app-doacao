@@ -39,4 +39,9 @@ class Campaign extends Model implements HasMedia
     {
         return $this->belongsTo(Institution::class);
     }
+
+    public function campaign_addressess()
+    {
+        return $this->hasMany(CampaignAddress::class);
+    }
 }
