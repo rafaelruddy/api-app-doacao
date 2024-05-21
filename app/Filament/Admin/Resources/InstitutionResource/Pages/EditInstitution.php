@@ -34,15 +34,6 @@ class EditInstitution extends EditRecord
 
                 try {
                     $record->status = $data["status"];
-
-                    if ($record->status === 'cancelado' || $record->status === 'falha_pagamento') {
-                        foreach ($record->ProdutosPedidos as $produto_pedido) {
-                            $produto_franquia = $produto_pedido->Produto;
-                            $produto_franquia->quantidade += $produto_pedido->quantidade;
-                            $produto_franquia->save();
-                        }
-                    }
-
                     $record->save();
                     return
                         Notification::make()
