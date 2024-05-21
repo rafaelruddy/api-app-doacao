@@ -15,6 +15,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class InstitutionResource extends Resource
@@ -63,7 +65,22 @@ class InstitutionResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id')
+                    ->label('ID'),
+
+                TextColumn::make('name')
+                    ->label('Nome')
+                    ->searchable(),
+
+                TextColumn::make('phone')
+                    ->label('Telefone')
+                    ->searchable(),
+
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
+                    ->formatStateUsing(fn ($state) => Institution::STATUS[$state])
+                    ->color(fn ($state) => Institution::STATUS_COLOR[$state]),
             ])
             ->filters([
                 //

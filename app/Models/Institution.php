@@ -18,6 +18,8 @@ class Institution extends Model implements HasMedia
      */
     protected $fillable = [
         'name',
+        'phone',
+        'description',
         'latitude',
         'longitude',
         'status'
@@ -48,7 +50,15 @@ class Institution extends Model implements HasMedia
 
 
     const STATUS = [
+        'analysis' => 'Análise',
+        'reprooved' => 'Reprovado',
         'active' => 'Ativo',
         'inactive' => 'Inativo',
+    ];
+    const STATUS_COLOR = [
+        'analysis' => 'info',
+        'reprooved' => 'danger',
+        'active' => 'success',
+        'inactive' => 'warning',
     ];
 }
