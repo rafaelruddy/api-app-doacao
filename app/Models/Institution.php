@@ -20,19 +20,7 @@ class Institution extends Model implements HasMedia
         'name',
         'phone',
         'description',
-        'latitude',
-        'longitude',
         'status'
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'latitude' => 'decimal:6',
-        'longitude' => 'decimal:6',
     ];
 
     /**
@@ -50,19 +38,19 @@ class Institution extends Model implements HasMedia
 
     public function address()
     {
-        return $this->hasOne(Address::class);
+        return $this->belongsTo(Address::class);
     }
 
 
     const STATUS = [
         'analysis' => 'Análise',
-        'reprooved' => 'Reprovado',
+        'reproved' => 'Reprovado',
         'active' => 'Ativo',
         'inactive' => 'Inativo',
     ];
     const STATUS_COLOR = [
         'analysis' => 'info',
-        'reprooved' => 'danger',
+        'reproved' => 'danger',
         'active' => 'success',
         'inactive' => 'warning',
     ];

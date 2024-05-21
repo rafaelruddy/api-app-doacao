@@ -22,7 +22,7 @@ class EditInstitution extends EditRecord
                     ->native(false)
                     ->options([
                         'analysis' => 'Análise',
-                        'reprooved' => 'Reprovado',
+                        'reproved' => 'Reprovado',
                         'active' => 'Ativo',
                         'inactive' => 'Inativo',
                     ])
