@@ -45,4 +45,10 @@ class Institution extends Model implements HasMedia
     {
         return $this->hasMany(Campaign::class);
     }
+
+
+    const STATUS = [
+        'active' => 'Ativo',
+        'inactive' => 'Inativo',
+    ];
 }

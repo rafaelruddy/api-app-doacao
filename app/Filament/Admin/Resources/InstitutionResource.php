@@ -6,6 +6,12 @@ use App\Filament\Admin\Resources\InstitutionResource\Pages\CreateInstitution;
 use App\Filament\Admin\Resources\InstitutionResource\Pages\EditInstitution;
 use App\Filament\Admin\Resources\InstitutionResource\Pages\ListInstitutions;
 use App\Models\Institution;
+use Faker\Provider\ar_EG\Text;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -17,11 +23,39 @@ class InstitutionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $modelLabel = 'Instituições';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Section::make('Dados')->schema([
+                    TextInput::make('name')
+                        ->label('Nome')
+                        ->required(),
+
+                    TextInput::make('phone')
+                        ->label('Telefone'),
+
+                    Textarea::make('description'),
+
+                    Select::make('status')
+                        ->label('Status')
+                        ->options(Institution::STATUS)
+                        ->native(false)
+                        ->required(),
+                ]),
+
+                Section::make('Localização')->schema([
+                    TextInput::make('latitude')
+                        ->label('Latitude')
+                        ->required(),
+
+                    TextInput::make('longitude')
+                        ->label('Longitude')
+                        ->required(),
+                ]),
+
             ]);
     }
 

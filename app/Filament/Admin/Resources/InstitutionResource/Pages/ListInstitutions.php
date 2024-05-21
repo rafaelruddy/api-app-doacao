@@ -13,7 +13,9 @@ class ListInstitutions extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Adicionar Instituição')
+                ->icon('heroicon-o-plus'),
         ];
     }
 }
