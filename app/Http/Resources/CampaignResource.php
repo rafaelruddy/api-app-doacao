@@ -19,7 +19,10 @@ class CampaignResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'date' => $this->date,
-            'items_objective' => $this->items_objective,
+            'items_quantity_objective' => $this->items_quantity_objective,
+            'donated_items_quantity' => $this->current_donation_quantity(),
+            'addressess' => AddressResource::collection($this->whenLoaded('addressess')),
+            'necessary_items' => NecessaryItemResource::collection($this->whenLoaded('necessary_items'))
         ];
     }
 }

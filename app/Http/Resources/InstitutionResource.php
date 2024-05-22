@@ -17,11 +17,9 @@ class InstitutionResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
             'status' => $this->status,
             'campaigns' => CampaignResource::collection($this->whenLoaded('campaigns')),
-            'address' => new AddressResource($this->address),
+            'address' => new AddressResource($this->whenLoaded('address')),
         ];
     }
 }

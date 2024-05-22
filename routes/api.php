@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DonatorController;
 use App\Http\Controllers\InstitutionController;
 use Illuminate\Http\Request;
@@ -23,3 +24,10 @@ Route::post('/donators', [DonatorController::class, 'register'])->name('Api.Dona
 */
 Route::get('/institutions', [InstitutionController::class, 'list'])->name('Api.Institutions.List');
 Route::get('/institution/{id}', [InstitutionController::class, 'info'])->name('Api.Institutions.Info');
+
+
+/*
+    Campaign Routes
+*/
+Route::get('/campaigns', [CampaignController::class, 'list'])->name('Api.Campaigns.List');
+Route::get('/campaign/{id}', [CampaignController::class, 'info'])->name('Api.Campaigns.Info');

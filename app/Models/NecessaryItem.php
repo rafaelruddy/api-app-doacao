@@ -17,6 +17,7 @@ class NecessaryItem extends Model
     protected $fillable = [
         'campaign_id',
         'item_id',
+        'quantity_objective'
     ];
 
     /**
@@ -33,5 +34,13 @@ class NecessaryItem extends Model
     public function item()
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public function total_donated()
+    {
+        return (int) $this->campaign->donations()
+                    ->join('donated_items', 'donations.id', '=', 'donated_items.donation_id')
+                    ->where('donated_items.item_id', $this->item->id)
+                    ->sum('donated_items.quantity');
     }
 }

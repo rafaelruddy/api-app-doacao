@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->date('date');
-            $table->integer('items_objective', false, true);
+            $table->integer('items_quantity_objective', false, true);
             $table->unsignedBigInteger('institution_id');
             $table->foreign('institution_id')->on('institutions')->references('id')->onDelete('cascade');
             $table->timestamps();

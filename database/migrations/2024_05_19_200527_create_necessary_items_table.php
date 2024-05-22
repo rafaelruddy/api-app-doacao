@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('campaign_id')->on('campaigns')->references('id')->onDelete('cascade');
             $table->unsignedBigInteger('item_id');
             $table->foreign('item_id')->on('items')->references('id')->onDelete('cascade');
+            $table->integer('quantity_objective', false, true);
             $table->timestamps();
         });
     }
