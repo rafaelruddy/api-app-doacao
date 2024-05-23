@@ -30,7 +30,7 @@ class DonatorResource extends Resource
 {
     protected static ?string $model = Donator::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-face-smile';
 
     protected static ?string $modelLabel = 'Doadores';
 
@@ -175,7 +175,7 @@ class DonatorResource extends Resource
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('email'),
-                
+
             ])
             ->filters([
                 //

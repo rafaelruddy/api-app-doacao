@@ -2,29 +2,28 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Filament\Admin\Resources\ItemResource\Pages;
-use App\Models\Item;
-use Filament\Forms\Components\TextInput;
+use App\Filament\Admin\Resources\DonationResource\Pages;
+use App\Filament\Admin\Resources\DonationResource\RelationManagers;
+use App\Models\Donation;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ItemResource extends Resource
+class DonationResource extends Resource
 {
-    protected static ?string $model = Item::class;
+    protected static ?string $model = Donation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
-
+    protected static ?string $navigationIcon = 'heroicon-o-gift';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->label('Name')
-                    ->required(),
 
             ]);
     }
@@ -33,13 +32,8 @@ class ItemResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable(),
-
-                TextColumn::make('name')
-                    ->label('Nome')
-                    ->searchable(),
+                TextColumn::make('donator_id'),
+                TextColumn::make('campaign_id'),
             ])
             ->filters([
                 //
@@ -55,8 +49,6 @@ class ItemResource extends Resource
             ]);
     }
 
-
-
     public static function getRelations(): array
     {
         return [
@@ -67,10 +59,10 @@ class ItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListItems::route('/'),
-            'create' => Pages\CreateItem::route('/create'),
-            'view' => Pages\ViewItem::route('/{record}'),
-            'edit' => Pages\EditItem::route('/{record}/edit'),
+            'index' => Pages\ListDonations::route('/'),
+            'create' => Pages\CreateDonation::route('/create'),
+            'view' => Pages\ViewDonation::route('/{record}'),
+            'edit' => Pages\EditDonation::route('/{record}/edit'),
         ];
     }
 }

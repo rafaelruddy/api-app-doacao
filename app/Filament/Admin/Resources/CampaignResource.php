@@ -24,7 +24,7 @@ class CampaignResource extends Resource
 {
     protected static ?string $model = Campaign::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     protected static ?string $modelLabel = 'Campanhas';
 
@@ -60,23 +60,23 @@ class CampaignResource extends Resource
                             TextInput::make('quantity_objective')->label('Quantidade'),
                         ])->columns(2),
                 ]),
-                // Section::make('Endereços de Coleta')->schema([
-                //     Repeater::make('addressess')
-                //         ->label('')
-                //         ->relationship()
-                //         ->defaultItems(0)
-                //         ->schema([
-                //             Group::make()->schema([
-                //                 TextInput::make('address_street')->label('Rua'),
-                //                 TextInput::make('address_city')->label('Cidade'),
-                //                 TextInput::make('address_state')->label('Estado'),
-                //                 TextInput::make('address_zipcode')->label('CEP'),
-                //                 TextInput::make('address_latitude')->label('Latitude'),
-                //                 TextInput::make('address_longitude')->label('Longitude'),
-                //             ])->columns(2),
+                Section::make('Endereços de Coleta')->schema([
+                    Repeater::make('addressess')
+                        ->label('')
+                        ->relationship()
+                        ->defaultItems(0)
+                        ->schema([
+                            Group::make()->schema([
+                                TextInput::make('street')->label('Rua'),
+                                TextInput::make('city')->label('Cidade'),
+                                TextInput::make('state')->label('Estado'),
+                                TextInput::make('zipcode')->label('CEP'),
+                                TextInput::make('latitude')->label('Latitude'),
+                                TextInput::make('longitude')->label('Longitude'),
+                            ])->columns(2),
 
-                //         ]),
-                // ]),
+                        ]),
+                ]),
             ]);
     }
 
