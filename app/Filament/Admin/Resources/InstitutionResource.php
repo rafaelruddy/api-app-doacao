@@ -47,7 +47,7 @@ class InstitutionResource extends Resource
                             ->mask(RawJs::make(<<<'JS'
                           '+99 99 99999-9999'
             JS)),
-            
+
                         Textarea::make('description'),
 
                         Select::make('status')
@@ -58,16 +58,15 @@ class InstitutionResource extends Resource
                     ])->columns(2),
                 ])->columnSpanFull(),
 
-
-                Section::make('Localização')->schema([
-                    TextInput::make('latitude')
-                        ->label('Latitude')
-                        ->required(),
-
-                    TextInput::make('longitude')
-                        ->label('Longitude')
-                        ->required(),
-                ]),
+                Fieldset::make()
+                    ->relationship('address')->schema([
+                        TextInput::make('street')->label('Rua'),
+                        TextInput::make('city')->label('Cidade'),
+                        TextInput::make('state')->label('Estado'),
+                        TextInput::make('zipcode')->label('CEP'),
+                        TextInput::make('latitude')->label('Latitude'),
+                        TextInput::make('longitude')->label('Longitude'),
+                    ])
 
             ]);
     }
@@ -92,6 +91,8 @@ class InstitutionResource extends Resource
                     ->badge()
                     ->formatStateUsing(fn ($state) => Institution::STATUS[$state])
                     ->color(fn ($state) => Institution::STATUS_COLOR[$state]),
+
+
             ])
             ->filters([
                 //

@@ -5,6 +5,7 @@ namespace App\Filament\Admin\Resources;
 use App\Filament\Admin\Resources\CampaignResource\Pages;
 use App\Models\Campaign;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -28,7 +29,8 @@ class CampaignResource extends Resource
                     TextInput::make('name')->label('Nome'),
                     TextInput::make('description')->label('Descrição'),
                     DatePicker::make('date')->label('Data')
-                ])
+                ]),
+                
             ]);
     }
 
