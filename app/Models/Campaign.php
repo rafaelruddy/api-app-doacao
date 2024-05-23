@@ -22,6 +22,7 @@ class Campaign extends Model implements HasMedia
         'description',
         'date',
         'items_quantity_objective',
+        'institution_id',
     ];
 
     /**
