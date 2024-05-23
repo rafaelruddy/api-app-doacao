@@ -8,12 +8,14 @@ use App\Filament\Admin\Resources\InstitutionResource\Pages\ListInstitutions;
 use App\Models\Institution;
 use Faker\Provider\ar_EG\Text;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -31,22 +33,31 @@ class InstitutionResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Dados')->schema([
-                    TextInput::make('name')
-                        ->label('Nome')
-                        ->required(),
+                Group::make()->schema([
+                    Section::make('Dados')->schema([
+                        TextInput::make('name')
+                            ->label('Nome')
+                            ->required(),
 
-                    TextInput::make('phone')
-                        ->label('Telefone'),
+                        TextInput::make('phone')
+                            ->label('Telefone')
+                            ->tel()
+                            ->required()
+                            ->stripCharacters([' ', '-'])
+                            ->mask(RawJs::make(<<<'JS'
+                          '+99 99 99999-9999'
+            JS)),
+            
+                        Textarea::make('description'),
 
-                    Textarea::make('description'),
+                        Select::make('status')
+                            ->label('Status')
+                            ->options(Institution::STATUS)
+                            ->native(false)
+                            ->required(),
+                    ])->columns(2),
+                ])->columnSpanFull(),
 
-                    Select::make('status')
-                        ->label('Status')
-                        ->options(Institution::STATUS)
-                        ->native(false)
-                        ->required(),
-                ]),
 
                 Section::make('Localização')->schema([
                     TextInput::make('latitude')
