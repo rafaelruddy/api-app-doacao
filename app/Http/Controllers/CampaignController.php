@@ -14,8 +14,14 @@ class CampaignController extends Controller
     public function list(Request $request)
     {
         try {
-            $institutions = Campaign::get();
-            return CampaignResource::collection($institutions);
+            $campaigns = Campaign::query();
+
+            if ($request->has('name')) {
+                $campaigns->where('name', 'like', '%' . $request->input('name') . '%');
+            }
+
+            $campaigns = $campaigns->get();
+            return CampaignResource::collection($campaigns);
         } catch (Exception $e) {
             return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
         }

@@ -11,6 +11,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -35,6 +36,9 @@ class InstitutionResource extends Resource
             ->schema([
                 Group::make()->schema([
                     Section::make('Dados')->schema([
+                        SpatieMediaLibraryFileUpload::make('avatar')
+                            ->columnSpanFull()
+                            ->collection('avatar'),
                         TextInput::make('name')
                             ->label('Nome')
                             ->required(),
@@ -45,8 +49,8 @@ class InstitutionResource extends Resource
                             ->required()
                             ->stripCharacters([' ', '-'])
                             ->mask(RawJs::make(<<<'JS'
-                          '+99 99 99999-9999'
-            JS)),
+                                '+99 99 99999-9999'
+                            JS)),
 
                         Textarea::make('description'),
 
@@ -59,6 +63,7 @@ class InstitutionResource extends Resource
                 ])->columnSpanFull(),
 
                 Fieldset::make()
+                    ->label('Endereço')
                     ->relationship('address')->schema([
                         TextInput::make('street')->label('Rua'),
                         TextInput::make('city')->label('Cidade'),
