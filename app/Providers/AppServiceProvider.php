@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Donation;
+use App\Observers\DonationObserver;
 use BezhanSalleh\PanelSwitch\PanelSwitch;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,5 +38,7 @@ class AppServiceProvider extends ServiceProvider
                 ])
                 ->canSwitchPanels(fn (): bool => true);
         });
+
+        Donation::observe(DonationObserver::class);
     }
 }

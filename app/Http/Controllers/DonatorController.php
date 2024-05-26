@@ -20,7 +20,7 @@ class DonatorController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:donators',
                 'password' => 'required|string|min:8',
-                'phone' => 'required|string|unique:clientes',
+                'phone' => 'required|string|unique:donators',
             ], [
                 'name.required' => 'O nome é obrigatório.',
                 'name.string' => 'O nome deve ser uma string.',

@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('donations', function (Blueprint $table) {
+        Schema::create('donator_achievements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('campaign_id');
-            $table->foreign('campaign_id')->on('campaigns')->references('id')->onDelete('cascade');
             $table->unsignedBigInteger('donator_id');
             $table->foreign('donator_id')->on('donators')->references('id')->onDelete('cascade');
-            $table->string('status');
-            $table->date('date');
+            $table->unsignedBigInteger('achievement_id');
+            $table->foreign('achievement_id')->on('achievements')->references('id')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('donations');
+        Schema::dropIfExists('donator_achievements');
     }
 };

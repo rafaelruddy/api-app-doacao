@@ -50,4 +50,9 @@ class Donation extends Model
         return $this->belongsToMany(Item::class, 'donated_items')->withPivot('quantity');
     }
 
+    public function scopeConcluded($query)
+    {
+        return $query->where('status', 'concluded');
+    }
+
 }
