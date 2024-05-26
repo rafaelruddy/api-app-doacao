@@ -20,7 +20,10 @@ class Campaign extends Model implements HasMedia
     protected $fillable = [
         'name',
         'description',
-        'date',
+        'start_date',
+        'end_date',
+        'donation_start_time',
+        'donation_end_time',
         'items_quantity_objective',
         'institution_id',
     ];

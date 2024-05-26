@@ -18,6 +18,8 @@ class InstitutionResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'status' => $this->status,
+            'description' => $this->description,
+            'phone' => $this->phone,
             'campaigns' => CampaignResource::collection($this->whenLoaded('campaigns')),
             'address' => new AddressResource($this->whenLoaded('address')),
         ];

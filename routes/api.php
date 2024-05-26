@@ -3,6 +3,7 @@
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DonatorController;
 use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,9 @@ Route::get('/institution/{id}', [InstitutionController::class, 'info'])->name('A
 */
 Route::get('/campaigns', [CampaignController::class, 'list'])->name('Api.Campaigns.List');
 Route::get('/campaign/{id}', [CampaignController::class, 'info'])->name('Api.Campaigns.Info');
+
+/*
+    News Routes
+*/
+Route::get('/news', [NewsController::class, 'list'])->name('Api.News.List');
+Route::get('/news/{id}', [NewsController::class, 'info'])->name('Api.News.Info');

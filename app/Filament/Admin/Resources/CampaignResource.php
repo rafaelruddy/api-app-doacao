@@ -9,11 +9,13 @@ use App\Models\Institution;
 use App\Models\Item;
 use Faker\Provider\ar_EG\Text;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -30,6 +32,7 @@ class CampaignResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $dateFormat = 'Y-m-d';
         return $form
             ->schema([
                 Section::make('Dados da Campanha')->schema([
@@ -37,15 +40,39 @@ class CampaignResource extends Resource
                         ->label('Instituição')
                         ->native(false)
                         ->required(),
-
-                    TextInput::make('name')->label('Nome'),
-                    TextInput::make('description')->label('Descrição'),
-                    DatePicker::make('date')->label('Data'),
-                    TextInput::make('items_quantity_objective'),
+                    TextInput::make('name')
+                        ->required()
+                        ->label('Nome'),
+                    TextInput::make('description')
+                        ->required()
+                        ->label('Descrição'),
+                    DateTimePicker::make('start_date')
+                        ->minDate(now())
+                        ->required()
+                        ->native(false)
+                        ->label('Data do Início'),
+                    DateTimePicker::make('end_date')
+                        ->required()
+                        ->minDate(now())
+                        ->after('start_date')
+                        ->native(false)
+                        ->label('Data do Término'),
+                    TimePicker::make('donation_start_time')
+                        ->seconds(false)
+                        ->required()
+                        ->label('Hora que começa a aceitar as doações'),
+                    TimePicker::make('donation_end_time')
+                        ->seconds(false)
+                        ->required()
+                        ->after('donation_start_time')
+                        ->label('Hora que termina de aceitar as doações'),
+                    TextInput::make('items_quantity_objective')
+                        ->required()
+                        ->label('Meta de doações (quantidade)'),
                 ]),
                 Section::make('Itens Necessários')->schema([
                     Repeater::make('necessary_items')
-                        ->label('')
+                        ->hiddenLabel()
                         ->relationship()
                         ->defaultItems(0)
                         ->schema([
@@ -62,7 +89,7 @@ class CampaignResource extends Resource
                 ]),
                 Section::make('Endereços de Coleta')->schema([
                     Repeater::make('addressess')
-                        ->label('')
+                        ->hiddenLabel()
                         ->relationship()
                         ->defaultItems(0)
                         ->schema([

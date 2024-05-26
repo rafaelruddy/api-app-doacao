@@ -20,6 +20,7 @@ class DonatorController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:donators',
                 'password' => 'required|string|min:8',
+                'phone' => 'required|string|unique:clientes',
             ], [
                 'name.required' => 'O nome é obrigatório.',
                 'name.string' => 'O nome deve ser uma string.',
@@ -32,15 +33,18 @@ class DonatorController extends Controller
                 'password.required' => 'A senha é obrigatória.',
                 'password.string' => 'A senha deve ser uma string.',
                 'password.min' => 'A senha deve ter pelo menos :min caracteres.',
+                'phone.required' => 'O telefone é obrigatório.',
+                'phone.unique' => 'Este telefone já foi cadastrado por outro usuário.',
             ]);
 
             $donator = Donator::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'phone' => $request->phone,
             ]);
 
-            $token = Auth::guard('donators')->attempt($request->only(['email','password']));
+            $token = Auth::guard('donators')->attempt($request->only(['email', 'password']));
             if ($token) {
                 $expiration = JWTAuth::factory()->getTTL();
                 $expirationDateTime = Carbon::now()->addMinutes($expiration);

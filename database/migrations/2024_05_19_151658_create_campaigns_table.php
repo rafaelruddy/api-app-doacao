@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->date('date');
+            $table->datetime('start_date');
+            $table->datetime('end_date');
+            $table->time('donation_start_time');
+            $table->time('donation_end_time');
             $table->integer('items_quantity_objective', false, true);
             $table->unsignedBigInteger('institution_id');
             $table->foreign('institution_id')->on('institutions')->references('id')->onDelete('cascade');

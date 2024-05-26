@@ -20,6 +20,12 @@ class CampaignController extends Controller
                 $campaigns->where('name', 'like', '%' . $request->input('name') . '%');
             }
 
+            if($request->has('item')) {
+                $campaigns->withWhereHas('necessary_items', function ($query) use ($request) {
+                    $query->where('item_id', $request->input('item'));
+                });
+            }
+
             $campaigns = $campaigns->get();
             return CampaignResource::collection($campaigns);
         } catch (Exception $e) {
