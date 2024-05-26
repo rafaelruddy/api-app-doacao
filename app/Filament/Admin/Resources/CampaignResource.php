@@ -17,6 +17,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -32,7 +34,6 @@ class CampaignResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $dateFormat = 'Y-m-d';
         return $form
             ->schema([
                 Section::make('Dados da Campanha')->schema([
@@ -75,6 +76,16 @@ class CampaignResource extends Resource
                         ->hiddenLabel()
                         ->relationship()
                         ->defaultItems(0)
+                        ->live()
+                        ->afterStateUpdated(function (Get $get, Set $set) {
+                            $total = 0;
+                            foreach ($get('necessary_items') as $item) {
+                                if ($item['quantity_objective']) {
+                                    $total += $item['quantity_objective'];
+                                }
+                            }
+                            $set('items_quantity_objective', $total);
+                        })
                         ->schema([
                             Select::make('item_id')
                                 ->label('Item')
@@ -83,9 +94,15 @@ class CampaignResource extends Resource
                                 ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                 ->distinct()
                                 ->searchable()
+                                ->required()
                                 ->native(false),
-                            TextInput::make('quantity_objective')->label('Quantidade'),
-                        ])->columns(2),
+                            TextInput::make('quantity_objective')
+                                ->required()
+                                ->minValue(0)
+                                ->numeric()
+                                ->label('Quantidade'),
+                        ])
+                        ->columns(2),
                 ]),
                 Section::make('Endereços de Coleta')->schema([
                     Repeater::make('addressess')
@@ -94,12 +111,12 @@ class CampaignResource extends Resource
                         ->defaultItems(0)
                         ->schema([
                             Group::make()->schema([
-                                TextInput::make('street')->label('Rua'),
-                                TextInput::make('city')->label('Cidade'),
-                                TextInput::make('state')->label('Estado'),
-                                TextInput::make('zipcode')->label('CEP'),
-                                TextInput::make('latitude')->label('Latitude'),
-                                TextInput::make('longitude')->label('Longitude'),
+                                TextInput::make('street')->required()->label('Rua'),
+                                TextInput::make('city')->required()->label('Cidade'),
+                                TextInput::make('state')->required()->label('Estado'),
+                                TextInput::make('zipcode')->required()->label('CEP'),
+                                TextInput::make('latitude')->required()->label('Latitude'),
+                                TextInput::make('longitude')->required()->label('Longitude'),
                             ])->columns(2),
 
                         ]),
