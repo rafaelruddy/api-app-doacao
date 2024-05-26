@@ -14,13 +14,16 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -37,12 +40,27 @@ class CampaignResource extends Resource
         return $form
             ->schema([
                 Section::make('Dados da Campanha')->schema([
+                    Group::make()->schema([
+                        SpatieMediaLibraryFileUpload::make('avatar')
+                            ->avatar()
+                            ->collection('avatarsCampaigns')
+                            ->imageEditor()
+                            ->required()
+                            ->hiddenLabel(),
+                        SpatieMediaLibraryFileUpload::make('banner')
+                            ->collection('bannersCampaigns')
+                            ->imageEditor()
+                            ->required()
+                            ->hiddenLabel(),
+                    ])->columns(2),
+
                     Select::make('institution_id')->relationship(name: 'institution', titleAttribute: 'name')
                         ->label('Instituição')
                         ->native(false)
                         ->required(),
                     TextInput::make('name')
                         ->required()
+                        ->unique(ignoreRecord: true)
                         ->label('Nome'),
                     TextInput::make('description')
                         ->required()
@@ -128,17 +146,24 @@ class CampaignResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable(),
+                SpatieMediaLibraryImageColumn::make('avatar')
+                    ->label('Avatar')
+                    ->circular()
+                    ->collection('avatarsCampaigns'),
+
                 TextColumn::make('name')
                     ->label('Nome')
                     ->searchable(),
-                TextColumn::make('date')
-                    ->label('Data'),
+
                 TextColumn::make('items_quantity_objective')
                     ->label('Objetivo '),
-                TextColumn::make('institution.name')
+
+                TextColumn::make('institution.name'),
+
+                TextColumn::make('start_date')
+                    ->label('Início')
+                    ->dateTime('d/m/Y H:i')
+                    ->sortable(),
             ])
             ->filters([
                 //

@@ -23,6 +23,8 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->brandName('Ação Comunitária')
+            ->font('Poppins')
             ->default()
             ->id('admin')
             ->login()
