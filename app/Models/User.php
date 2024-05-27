@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use BezhanSalleh\FilamentShield\Support\Utils;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasTenants;
@@ -66,17 +67,38 @@ class User extends Authenticatable implements FilamentUser, HasTenants
 
     public function getTenants(Panel $panel): Collection
     {
+        if ($this->hasRole(Utils::getSuperAdminName())) {
+            return Institution::all();
+        }
+
         return $this->institutions;
     }
 
     public function canAccessTenant(Model $tenant): bool
     {
+        if ($this->hasRole(Utils::getSuperAdminName())) {
+            return true;
+        }
+
         return $this->institutions->contains($tenant);
     }
 
     public function canAccessFilament(): bool
     {
         return true;
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($panel->getId() === 'admin') {
+            return $this->hasRole(Utils::getSuperAdminName());
+        }
+
+        if ($panel->getId() === 'institution') {
+            return $this->institutions()->exists();
+        }
+
+        return false;
     }
 
 }

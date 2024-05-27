@@ -20,6 +20,9 @@ class DonationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
 
+    protected static ?string $label = 'Doações';
+
+
     public static function form(Form $form): Form
     {
         return $form
