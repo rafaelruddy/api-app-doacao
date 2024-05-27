@@ -13,7 +13,7 @@ class ListDonators extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Criar Doador')->icon('heroicon-o-plus'),
         ];
     }
 }

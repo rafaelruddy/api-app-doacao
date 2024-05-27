@@ -19,6 +19,7 @@ use Filament\Resources\Resource;
 use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Columns\SelectColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -37,8 +38,10 @@ class InstitutionResource extends Resource
                 Group::make()->schema([
                     Section::make('Dados')->schema([
                         SpatieMediaLibraryFileUpload::make('avatar')
-                            ->columnSpanFull()
+                            ->avatar()
                             ->collection('avatar'),
+                        SpatieMediaLibraryFileUpload::make('banner')
+                            ->collection('bannerInstitution'),
                         TextInput::make('name')
                             ->label('Nome')
                             ->required(),
@@ -82,7 +85,10 @@ class InstitutionResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->label('ID'),
-
+                SpatieMediaLibraryImageColumn::make('avatar')
+                    ->label('Avatar')
+                    ->collection('avatar')
+,
                 TextColumn::make('name')
                     ->label('Nome')
                     ->searchable(),

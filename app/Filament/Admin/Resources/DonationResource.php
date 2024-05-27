@@ -6,6 +6,8 @@ use App\Filament\Admin\Resources\DonationResource\Pages;
 use App\Filament\Admin\Resources\DonationResource\RelationManagers;
 use App\Models\Donation;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -27,7 +29,21 @@ class DonationResource extends Resource
     {
         return $form
             ->schema([
+                Select::make('donator_id')
+                ->relationship(name: 'donator', titleAttribute: 'name')
+                    ->label('Doador')
+                    ->native(false)
 
+                    ->required(),
+                Select::make('campaign_id')
+                    ->relationship(name: 'campaign', titleAttribute: 'name')
+                    ->native(false)
+                    ->label('Campanha'),
+                Select::make('status')
+                    ->label('Status')
+                    ->options(Donation::STATUS)
+                    ->native(false)
+                    ->required(),
             ]);
     }
 

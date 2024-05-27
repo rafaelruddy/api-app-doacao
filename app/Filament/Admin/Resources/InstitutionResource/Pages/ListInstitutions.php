@@ -14,7 +14,7 @@ class ListInstitutions extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('Adicionar Instituição')
+                ->label('Criar Instituição')
                 ->icon('heroicon-o-plus'),
         ];
     }

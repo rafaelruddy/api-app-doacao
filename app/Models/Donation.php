@@ -55,4 +55,10 @@ class Donation extends Model
         return $query->where('status', 'concluded');
     }
 
+    const STATUS = [
+        'agended' => 'Agendada',
+        'canceled' => 'Cancelada',
+        'concluded' => 'Concluída',
+    ];
+
 }

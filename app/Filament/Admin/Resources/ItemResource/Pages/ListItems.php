@@ -13,7 +13,7 @@ class ListItems extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Criar Item')->icon('heroicon-o-plus'),
         ];
     }
 }

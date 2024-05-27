@@ -70,6 +70,15 @@ class DonatorResource extends Resource
                                 ->required()
                                 ->maxLength(255),
 
+                            TextInput::make('phone')
+                                ->label('Telefone')
+                                ->tel()
+                                ->required()
+                                ->stripCharacters([' ', '-'])
+                                ->mask(RawJs::make(<<<'JS'
+                                    '+99 99 99999-9999'
+                                JS)),
+
                             TextInput::make('password')
                                 ->placeholder('*********')
                                 ->label('Senha')
@@ -173,8 +182,15 @@ class DonatorResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('email'),
+                TextColumn::make('name')
+                ->label('Nome')
+                ->searchable(),
+                TextColumn::make('email')
+                ->label('Email')
+                ->searchable(),
+                TextColumn::make('phone')
+                ->label('Telefone')
+                ->searchable(),
 
             ])
             ->filters([

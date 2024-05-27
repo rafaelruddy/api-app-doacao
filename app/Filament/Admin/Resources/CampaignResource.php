@@ -15,6 +15,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Form;
@@ -54,7 +55,8 @@ class CampaignResource extends Resource
                             ->hiddenLabel(),
                     ])->columns(2),
 
-                    Select::make('institution_id')->relationship(name: 'institution', titleAttribute: 'name')
+                    Select::make('institution_id')
+                        ->relationship(name: 'institution', titleAttribute: 'name')
                         ->label('Instituição')
                         ->native(false)
                         ->required(),
@@ -62,7 +64,7 @@ class CampaignResource extends Resource
                         ->required()
                         ->unique(ignoreRecord: true)
                         ->label('Nome'),
-                    TextInput::make('description')
+                    Textarea::make('description')
                         ->required()
                         ->label('Descrição'),
                     DateTimePicker::make('start_date')
