@@ -3,9 +3,7 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\DonatorResource\Pages;
-use App\Filament\Admin\Resources\DonatorResource\RelationManagers;
 use App\Models\Donator;
-use Faker\Provider\ar_EG\Text;
 use Filament\Forms;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Grid;
@@ -23,7 +21,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
 
 class DonatorResource extends Resource
@@ -31,6 +28,8 @@ class DonatorResource extends Resource
     protected static ?string $model = Donator::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-face-smile';
+
+    protected static ?string $activeNavigationIcon = 'heroicon-s-face-smile';
 
     protected static ?string $modelLabel = 'Doadores';
 

@@ -21,6 +21,8 @@ class DonationResource extends Resource
     protected static ?string $model = Donation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
+    
+    protected static ?string $activeNavigationIcon = 'heroicon-s-gift';
 
     protected static ?string $label = 'Doações';
 

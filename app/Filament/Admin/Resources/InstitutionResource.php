@@ -29,6 +29,8 @@ class InstitutionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
+    protected static ?string $activeNavigationIcon = 'heroicon-s-building-library';
+
     protected static ?string $modelLabel = 'Instituições';
 
     public static function form(Form $form): Form
