@@ -23,7 +23,7 @@ class DonationObserver
 
     protected function checkAchievements(Donation $doador)
     {
-        $totalItems = $doador->donated_items_quantity();
+        $totalItems = $doador->donatedItemsQuantity();
         $conquistas = Achievement::all();
 
         foreach ($conquistas as $conquista) {

@@ -49,11 +49,17 @@ class CampaignResource extends Resource
                             ->collection('avatarsCampaigns')
                             ->imageEditor()
                             ->required()
+                            ->validationMessages([
+                                'required' => 'O campo :attribute é obrigatório.',
+                            ])
                             ->hiddenLabel(),
                         SpatieMediaLibraryFileUpload::make('banner')
                             ->collection('bannersCampaigns')
                             ->imageEditor()
                             ->required()
+                            ->validationMessages([
+                                'required' => 'O campo :attribute é obrigatório.',
+                            ])
                             ->hiddenLabel(),
                     ])->columns(2),
 
@@ -70,7 +76,6 @@ class CampaignResource extends Resource
                         ->required()
                         ->label('Descrição'),
                     DateTimePicker::make('start_date')
-                        ->minDate(now())
                         ->required()
                         ->native(false)
                         ->label('Data do Início'),
@@ -89,9 +94,6 @@ class CampaignResource extends Resource
                         ->required()
                         ->after('donation_start_time')
                         ->label('Hora que termina de aceitar as doações'),
-                    TextInput::make('items_quantity_objective')
-                        ->required()
-                        ->label('Meta de doações (quantidade)'),
                 ]),
                 Section::make('Itens Necessários')->schema([
                     Repeater::make('necessary_items')
@@ -99,15 +101,6 @@ class CampaignResource extends Resource
                         ->relationship()
                         ->defaultItems(0)
                         ->live()
-                        ->afterStateUpdated(function (Get $get, Set $set) {
-                            $total = 0;
-                            foreach ($get('necessary_items') as $item) {
-                                if ($item['quantity_objective']) {
-                                    $total += $item['quantity_objective'];
-                                }
-                            }
-                            $set('items_quantity_objective', $total);
-                        })
                         ->schema([
                             Select::make('item_id')
                                 ->label('Item')

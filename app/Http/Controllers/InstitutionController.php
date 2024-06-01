@@ -16,7 +16,7 @@ class InstitutionController extends Controller
             $institutions = Institution::with('address')->where('status', 'active')->get();
             return InstitutionResource::collection($institutions);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
+            return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
         }
     }
 
@@ -26,9 +26,9 @@ class InstitutionController extends Controller
             $institution = Institution::with('campaigns')->findOrFail($id);
             return new InstitutionResource($institution);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Instituição não encontrada'], 404);
+            return response()->json(['message' => 'Instituição não encontrada'], 404);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
+            return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
         }
     }
 }

@@ -60,7 +60,13 @@ class Campaign extends Model implements HasMedia
         return $this->hasMany(NecessaryItem::class);
     }
 
-    public function current_donation_quantity()
+    public function donatedItemsObjective()
+    {
+        return (int) $this->necessary_items()
+                        ->sum('quantity_objective');
+    }
+
+    public function currentDonationQuantity()
     {
         return (int) $this->donations()
                     ->join('donated_items', 'donations.id', '=', 'donated_items.donation_id')

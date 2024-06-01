@@ -16,7 +16,7 @@ class NewsController extends Controller
             $news = News::get();
             return NewsResource::collection($news);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
+            return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
         }
     }
 
@@ -26,9 +26,9 @@ class NewsController extends Controller
             $institution = News::findOrFail($id);
             return new NewsResource($institution);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Notícia não encontrada'], 404);
+            return response()->json(['message' => 'Notícia não encontrada'], 404);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
+            return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
         }
     }
 }

@@ -57,7 +57,7 @@ class DonatorController extends Controller
                 'data' => new DonatorResource($donator)
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
+            return response()->json(['message' => $e->validator->errors()->first()], 422);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro ao processar o registro do usuário: ' . $e], 500);
         }
@@ -85,11 +85,11 @@ class DonatorController extends Controller
                 ]);
             }
 
-            return response()->json(['error' => 'Credenciais inválidas'], 401);
+            return response()->json(['message' => 'Credenciais inválidas'], 401);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 401);
+            return response()->json(['message' => $e->validator->errors()->first()], 401);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
+            return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
         }
     }
 

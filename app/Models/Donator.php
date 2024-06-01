@@ -55,7 +55,7 @@ class Donator extends Authenticatable implements JWTSubject
         return $this->hasMany(Achievement::class);
     }
 
-    public function donated_items_quantity()
+    public function donatedItemsQuantity()
     {
         return (int) $this->donations()
             ->concluded()

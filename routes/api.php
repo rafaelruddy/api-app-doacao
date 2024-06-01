@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\DonationController;
 use App\Http\Controllers\DonatorController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\NewsController;
@@ -14,6 +15,8 @@ Route::get('/user', function (Request $request) {
 
 Route::middleware('auth:donators')->group(function () {
     Route::get('/donator', [DonatorController::class, 'loggedInfo'])->name('Api.Donator.LoggedInfo');
+    Route::get('/donations', [DonationController::class, 'list'])->name('Api.Donations.List');
+    Route::post('/donation', [DonationController::class, 'create'])->name('Api.Donation.Create');
 });
 
 Route::post('/login', [DonatorController::class, 'login'])->name('Api.Donator.Login');

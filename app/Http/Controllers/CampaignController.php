@@ -29,7 +29,7 @@ class CampaignController extends Controller
             $campaigns = $campaigns->get();
             return CampaignResource::collection($campaigns);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
+            return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
         }
     }
 
@@ -39,9 +39,9 @@ class CampaignController extends Controller
             $institution = Campaign::with(['addressess', 'necessary_items'])->findOrFail($id);
             return new CampaignResource($institution);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Campanha não encontrada'], 404);
+            return response()->json(['message' => 'Campanha não encontrada'], 404);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
+            return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
         }
     }
 }

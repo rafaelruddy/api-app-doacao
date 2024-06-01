@@ -18,6 +18,7 @@ class Donation extends Model
         'campaign_id',
         'donator_id',
         'date',
+        'status',
     ];
 
     /**
@@ -26,7 +27,7 @@ class Donation extends Model
      * @var array
      */
     protected $casts = [
-        'date' => 'date',
+        'date' => 'datetime',
     ];
 
     /**
