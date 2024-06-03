@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreign('campaign_id')->on('campaigns')->references('id')->onDelete('cascade');
             $table->unsignedBigInteger('donator_id');
             $table->foreign('donator_id')->on('donators')->references('id')->onDelete('cascade');
-            $table->date('date');
+            $table->string('status');
+            $table->datetime('date');
             $table->timestamps();
         });
     }

@@ -18,25 +18,15 @@ class Institution extends Model implements HasMedia
      */
     protected $fillable = [
         'name',
-        'latitude',
-        'longitude',
+        'phone',
+        'description',
         'status'
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'latitude' => 'decimal:6',
-        'longitude' => 'decimal:6',
     ];
 
     /**
      * Get the user that owns the institution.
      */
-    public function user()
+    public function users()
     {
         return $this->belongsToMany(User::class);
     }
@@ -45,4 +35,23 @@ class Institution extends Model implements HasMedia
     {
         return $this->hasMany(Campaign::class);
     }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+
+    const STATUS = [
+        'analysis' => 'Análise',
+        'reproved' => 'Reprovado',
+        'active' => 'Ativo',
+        'inactive' => 'Inativo',
+    ];
+    const STATUS_COLOR = [
+        'analysis' => 'info',
+        'reproved' => 'danger',
+        'active' => 'success',
+        'inactive' => 'warning',
+    ];
 }

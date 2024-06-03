@@ -13,23 +13,22 @@ class InstitutionController extends Controller
     public function list(Request $request)
     {
         try {
-            $institutions = Institution::where('status', 'active')->get();
+            $institutions = Institution::with('address')->where('status', 'active')->get();
             return InstitutionResource::collection($institutions);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
+            return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
         }
     }
 
     public function info(Request $request, int $id)
     {
         try {
-            $institution = Institution::findOrFail($id);
-
+            $institution = Institution::with('campaigns')->findOrFail($id);
             return new InstitutionResource($institution);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Instituição não encontrada'], 404);
+            return response()->json(['message' => 'Instituição não encontrada'], 404);
         } catch (Exception $e) {
-            return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
+            return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
         }
     }
 }

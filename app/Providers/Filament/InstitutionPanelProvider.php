@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Institution\Pages\Tenancy\EditInstitutionProfile;
+use App\Filament\Institution\Pages\Tenancy\RegisterInstitution;
 use App\Models\Institution;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -26,9 +28,13 @@ class InstitutionPanelProvider extends PanelProvider
         return $panel
             ->id('institution')
             ->path('institution')
-            ->tenant(Institution::class)
+            ->tenant(Institution::class, ownershipRelationship: 'users')
+            ->tenantRegistration(RegisterInstitution::class)
+            ->tenantProfile(EditInstitutionProfile::class)
+            ->brandLogo(asset('images/logos/logo.png'))
             ->sidebarCollapsibleOnDesktop()
             ->topNavigation()
+            ->maxContentWidth('full')
             ->colors([
                 'primary' => Color::Amber,
                 'danger' => Color::Red,
@@ -59,8 +65,6 @@ class InstitutionPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Institution/Widgets'), for: 'App\\Filament\\Institution\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -75,6 +79,9 @@ class InstitutionPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->plugins([
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
     }
 }

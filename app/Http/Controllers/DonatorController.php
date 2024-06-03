@@ -20,6 +20,7 @@ class DonatorController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:donators',
                 'password' => 'required|string|min:8',
+                'phone' => 'required|string|unique:donators',
             ], [
                 'name.required' => 'O nome é obrigatório.',
                 'name.string' => 'O nome deve ser uma string.',
@@ -32,15 +33,18 @@ class DonatorController extends Controller
                 'password.required' => 'A senha é obrigatória.',
                 'password.string' => 'A senha deve ser uma string.',
                 'password.min' => 'A senha deve ter pelo menos :min caracteres.',
+                'phone.required' => 'O telefone é obrigatório.',
+                'phone.unique' => 'Este telefone já foi cadastrado por outro usuário.',
             ]);
 
             $donator = Donator::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'phone' => $request->phone,
             ]);
 
-            $token = Auth::guard('donators')->attempt($request->only(['email','password']));
+            $token = Auth::guard('donators')->attempt($request->only(['email', 'password']));
             if ($token) {
                 $expiration = JWTAuth::factory()->getTTL();
                 $expirationDateTime = Carbon::now()->addMinutes($expiration);
@@ -53,7 +57,7 @@ class DonatorController extends Controller
                 'data' => new DonatorResource($donator)
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
+            return response()->json(['message' => $e->validator->errors()->first()], 422);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro ao processar o registro do usuário: ' . $e], 500);
         }
@@ -81,11 +85,11 @@ class DonatorController extends Controller
                 ]);
             }
 
-            return response()->json(['error' => 'Credenciais inválidas'], 401);
+            return response()->json(['message' => 'Credenciais inválidas'], 401);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 401);
+            return response()->json(['message' => $e->validator->errors()->first()], 401);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Erro interno do servidor: ' . $e], 500);
+            return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
         }
     }
 

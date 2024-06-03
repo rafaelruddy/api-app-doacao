@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone')->nullable();
             $table->text('description')->nullable();
-            $table->decimal('latitude', 9, 6);
-            $table->decimal('longitude', 9, 6);
             $table->string('status')->default('active');
+            $table->unsignedBigInteger('address_id')->nullable();
+            $table->foreign('address_id')->on('addresses')->references('id')->onDelete('cascade');
             $table->timestamps();
         });
     }

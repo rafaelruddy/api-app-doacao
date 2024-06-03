@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -22,9 +23,13 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+
         return $panel
+            ->brandName('Ação Comunitária')
+            ->font('Poppins')
             ->default()
             ->id('admin')
+            ->favicon(asset('images/favicon-32x32.png'))
             ->login()
             ->colors([
                 'primary' => Color::Amber,

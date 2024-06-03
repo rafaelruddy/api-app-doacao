@@ -18,6 +18,7 @@ class Donation extends Model
         'campaign_id',
         'donator_id',
         'date',
+        'status',
     ];
 
     /**
@@ -26,7 +27,7 @@ class Donation extends Model
      * @var array
      */
     protected $casts = [
-        'date' => 'date',
+        'date' => 'datetime',
     ];
 
     /**
@@ -44,4 +45,21 @@ class Donation extends Model
     {
         return $this->belongsTo(Donator::class);
     }
+
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'donated_items')->withPivot('quantity');
+    }
+
+    public function scopeConcluded($query)
+    {
+        return $query->where('status', 'concluded');
+    }
+
+    const STATUS = [
+        'agended' => 'Agendada',
+        'canceled' => 'Cancelada',
+        'concluded' => 'Concluída',
+    ];
+
 }

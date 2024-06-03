@@ -23,6 +23,7 @@ class Donator extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'phone',
     ];
 
     /**
@@ -43,6 +44,24 @@ class Donator extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
+    }
+
+    public function achievements()
+    {
+        return $this->hasMany(Achievement::class);
+    }
+
+    public function donatedItemsQuantity()
+    {
+        return (int) $this->donations()
+            ->concluded()
+            ->join('donated_items', 'donations.id', '=', 'donated_items.donation_id')
+            ->sum('donated_items.quantity');
+    }
 
     public function getJWTIdentifier()
     {
