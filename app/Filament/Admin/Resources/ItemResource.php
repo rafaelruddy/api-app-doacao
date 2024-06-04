@@ -17,6 +17,10 @@ class ItemResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
 
+    protected static ?string $navigationGroup = 'Doação';
+
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-puzzle-piece';
 
 
@@ -25,9 +29,8 @@ class ItemResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->label('Name')
+                    ->label('Nome')
                     ->required(),
-
             ]);
     }
 

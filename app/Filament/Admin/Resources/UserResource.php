@@ -28,6 +28,8 @@ class UserResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-s-user';
 
+    protected static ?string $navigationGroup = 'Usuários';
+
     protected static ?string $modelLabel = 'Usuários';
 
 

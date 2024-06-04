@@ -35,6 +35,10 @@ class CampaignResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-s-book-open';
 
+    protected static ?string $navigationGroup = 'Instituição';
+
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $modelLabel = 'Campanhas';
 
     public static function form(Form $form): Form

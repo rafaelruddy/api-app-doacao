@@ -29,6 +29,10 @@ class InstitutionResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-s-building-library';
 
+    protected static ?string $navigationGroup = 'Instituição';
+
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $modelLabel = 'Instituições';
 
     public static function form(Form $form): Form
@@ -36,12 +40,16 @@ class InstitutionResource extends Resource
         return $form
             ->schema([
                 Group::make()->schema([
+
                     Section::make('Dados')->schema([
+
                         SpatieMediaLibraryFileUpload::make('avatar')
                             ->avatar()
                             ->collection('avatar'),
+
                         SpatieMediaLibraryFileUpload::make('banner')
                             ->collection('bannerInstitution'),
+
                         TextInput::make('name')
                             ->label('Nome')
                             ->required(),
@@ -55,25 +63,46 @@ class InstitutionResource extends Resource
                                 '+99 99 99999-9999'
                             JS)),
 
-                        Textarea::make('description'),
+                        Textarea::make('description')
+                        ->label('Descrição'),
 
                         Select::make('status')
                             ->label('Status')
                             ->options(Institution::STATUS)
                             ->native(false)
                             ->required(),
+
                     ])->columns(2),
+
                 ])->columnSpanFull(),
 
                 Fieldset::make()
                     ->label('Endereço')
-                    ->relationship('address')->schema([
-                        TextInput::make('street')->label('Rua'),
-                        TextInput::make('city')->label('Cidade'),
-                        TextInput::make('state')->label('Estado'),
-                        TextInput::make('zipcode')->label('CEP'),
-                        TextInput::make('latitude')->label('Latitude'),
-                        TextInput::make('longitude')->label('Longitude'),
+                    ->relationship('address')
+                    ->schema([
+
+                        TextInput::make('street')
+                            ->label('Rua'),
+
+                        TextInput::make('city')
+                            ->label('Cidade'),
+
+                        TextInput::make('state')
+                            ->label('Estado'),
+
+                        TextInput::make('zipcode')
+                            ->label('CEP')
+                            ->stripCharacters(['-'])
+                            ->mask(RawJs::make(<<<'JS'
+                                '99999-999'
+                            JS)),
+
+                        TextInput::make('latitude')
+                            ->label('Latitude'),
+
+                        TextInput::make('longitude')
+                            ->label('Longitude'),
+
                     ])
 
             ]);
@@ -85,10 +114,11 @@ class InstitutionResource extends Resource
             ->columns([
                 TextColumn::make('id')
                     ->label('ID'),
+
                 SpatieMediaLibraryImageColumn::make('avatar')
                     ->label('Avatar')
-                    ->collection('avatar')
-,
+                    ->collection('avatar'),
+
                 TextColumn::make('name')
                     ->label('Nome')
                     ->searchable(),
@@ -102,7 +132,6 @@ class InstitutionResource extends Resource
                     ->badge()
                     ->formatStateUsing(fn ($state) => Institution::STATUS[$state])
                     ->color(fn ($state) => Institution::STATUS_COLOR[$state]),
-
 
             ])
             ->filters([
