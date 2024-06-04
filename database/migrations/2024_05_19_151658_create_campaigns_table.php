@@ -19,7 +19,6 @@ return new class extends Migration
             $table->datetime('end_date');
             $table->time('donation_start_time');
             $table->time('donation_end_time');
-            $table->integer('items_quantity_objective', false, true);
             $table->unsignedBigInteger('institution_id');
             $table->foreign('institution_id')->on('institutions')->references('id')->onDelete('cascade');
             $table->timestamps();

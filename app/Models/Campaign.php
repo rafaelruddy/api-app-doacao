@@ -24,7 +24,6 @@ class Campaign extends Model implements HasMedia
         'end_date',
         'donation_start_time',
         'donation_end_time',
-        'items_quantity_objective',
         'institution_id',
     ];
 
@@ -34,7 +33,8 @@ class Campaign extends Model implements HasMedia
      * @var array
      */
     protected $casts = [
-        'date' => 'date',
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
 
     /**

@@ -152,9 +152,6 @@ class CampaignResource extends Resource
                     ->label('Nome')
                     ->searchable(),
 
-                TextColumn::make('items_quantity_objective')
-                    ->label('Objetivo '),
-
                 TextColumn::make('institution.name'),
 
                 TextColumn::make('start_date')
