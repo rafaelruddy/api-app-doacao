@@ -32,6 +32,7 @@ class InstitutionPanelProvider extends PanelProvider
             ->tenantRegistration(RegisterInstitution::class)
             ->tenantProfile(EditInstitutionProfile::class)
             ->brandLogo(asset('images/logos/logo.png'))
+            ->favicon(asset('images/favicon-32x32.png'))
             ->sidebarCollapsibleOnDesktop()
             ->topNavigation()
             ->maxContentWidth('full')

@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->favicon(asset('images/favicon-32x32.png'))
+            ->brandLogo(asset('images/logos/logo.png'))
             ->login()
             ->colors([
                 'primary' => Color::Amber,

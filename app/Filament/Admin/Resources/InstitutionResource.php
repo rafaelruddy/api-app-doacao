@@ -6,7 +6,6 @@ use App\Filament\Admin\Resources\InstitutionResource\Pages\CreateInstitution;
 use App\Filament\Admin\Resources\InstitutionResource\Pages\EditInstitution;
 use App\Filament\Admin\Resources\InstitutionResource\Pages\ListInstitutions;
 use App\Models\Institution;
-use Faker\Provider\ar_EG\Text;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
@@ -18,7 +17,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\RawJs;
 use Filament\Tables;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -123,7 +121,7 @@ class InstitutionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            InstitutionResource\RelationManagers\UsersRelationManager::class,
         ];
     }
 

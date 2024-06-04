@@ -5,7 +5,12 @@ namespace App\Filament\Admin\Resources;
 use App\Filament\Admin\Resources\DonationResource\Pages;
 use App\Filament\Admin\Resources\DonationResource\RelationManagers;
 use App\Models\Donation;
+use App\Models\Item;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -21,7 +26,7 @@ class DonationResource extends Resource
     protected static ?string $model = Donation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-gift';
-    
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-gift';
 
     protected static ?string $label = 'Doações';
@@ -32,20 +37,48 @@ class DonationResource extends Resource
         return $form
             ->schema([
                 Select::make('donator_id')
-                ->relationship(name: 'donator', titleAttribute: 'name')
+                    ->relationship(name: 'donator', titleAttribute: 'name')
                     ->label('Doador')
                     ->native(false)
-
                     ->required(),
                 Select::make('campaign_id')
                     ->relationship(name: 'campaign', titleAttribute: 'name')
                     ->native(false)
                     ->label('Campanha'),
+                DateTimePicker::make('date')
+                    ->required()
+                    ->seconds(false)
+                    ->native(false)
+                    ->label('Data de Doação'),
                 Select::make('status')
                     ->label('Status')
                     ->options(Donation::STATUS)
                     ->native(false)
                     ->required(),
+                Section::make('Itens Doados')->schema([
+                    Repeater::make('donated_items')
+                        ->hiddenLabel()
+                        ->relationship()
+                        ->defaultItems(0)
+                        ->live()
+                        ->schema([
+                            Select::make('item_id')
+                                ->label('Item')
+                                ->options(Item::query()
+                                    ->pluck('name', 'id'))
+                                ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                ->distinct()
+                                ->searchable()
+                                ->required()
+                                ->native(false),
+                            TextInput::make('quantity')
+                                ->required()
+                                ->minValue(0)
+                                ->numeric()
+                                ->label('Quantidade'),
+                        ])
+                        ->columns(2),
+                ]),
             ]);
     }
 
@@ -53,8 +86,15 @@ class DonationResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('donator_id'),
-                TextColumn::make('campaign_id'),
+                TextColumn::make('Donator.name'),
+                TextColumn::make('Campaign.name'),
+                TextColumn::make('status')
+                    ->badge()
+                    ->formatStateUsing(fn ($state) => Donation::STATUS[$state])
+                    ->color(fn ($state) => Donation::STATUS_COLOR[$state]),
+                TextColumn::make('date')
+                    ->label('Data da Doação')
+                    ->dateTime('d/m/Y H:i'),
             ])
             ->filters([
                 //
@@ -73,7 +113,6 @@ class DonationResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 
