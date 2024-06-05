@@ -94,7 +94,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         }
 
         if ($panel->getId() === 'institution') {
-            return $this->institutions()->exists();
+            return $this->institutions()->exists() || $this->hasRole(Utils::getSuperAdminName());
         }
 
         return false;

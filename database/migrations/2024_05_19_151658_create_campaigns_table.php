@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
+            $table->string('status')->default('active');
             $table->datetime('start_date');
             $table->datetime('end_date');
             $table->time('donation_start_time');

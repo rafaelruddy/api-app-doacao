@@ -55,6 +55,7 @@ class BasicSeeder extends Seeder
         $campaign = Campaign::create([
             'name' => 'Campanha do Agasalho',
             'description' => 'Doe para ajudar pessoas com necessidade.',
+            'status' => 'active',
             'start_date' => now(),
             'end_date' => now()->addMonth(),
             'donation_start_time' => now()->format('H:i:s'),
