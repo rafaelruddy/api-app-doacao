@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class HttpForce
+class HandleInsecureRequests
 {
     /**
      * Handle an incoming request.
@@ -18,7 +18,9 @@ class HttpForce
         $response = $next($request);
 
         // Adicione o cabeçalho Content-Security-Policy aqui
-        $response->headers->set('Content-Security-Policy', "upgrade-insecure-requests");
+        if (config('app.url') !== 'http://127.0.0.1:8000') {
+            $response->headers->set('Content-Security-Policy', "upgrade-insecure-requests");
+        }
 
         return $response;
     }

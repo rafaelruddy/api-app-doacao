@@ -10,6 +10,7 @@ use App\Models\Item;
 use Faker\Provider\ar_EG\Text;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -120,10 +121,24 @@ class CampaignResource extends Resource
                                 ->numeric()
                                 ->label('Quantidade'),
                         ])
+                        ->grid(2)
                         ->columns(2),
+
+                    Placeholder::make('total')
+                            ->label('Meta Total de itens')
+                        ->content(function (Get $get): string {
+                            $total = 0;
+                            foreach ($get('necessary_items') as $item) {
+                                if ($item['quantity_objective']) {
+                                    $total += $item['quantity_objective'];
+                                }
+                            }
+                            return $total;
+                        })
                 ]),
                 Section::make('Endereços de Coleta')->schema([
                     Repeater::make('addressess')
+
                         ->hiddenLabel()
                         ->relationship()
                         ->defaultItems(0)
