@@ -17,6 +17,8 @@ class InstitutionResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'avatar' => $this->getFirstMediaUrl('avatar'),
+            'banner' => $this->getFirstMediaUrl('banner'),
             'status' => $this->status,
             'description' => $this->description,
             'phone' => $this->phone,

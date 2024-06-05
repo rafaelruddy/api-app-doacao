@@ -48,7 +48,7 @@ class InstitutionResource extends Resource
                             ->collection('avatar'),
 
                         SpatieMediaLibraryFileUpload::make('banner')
-                            ->collection('bannerInstitution'),
+                            ->collection('banner'),
 
                         TextInput::make('name')
                             ->label('Nome')

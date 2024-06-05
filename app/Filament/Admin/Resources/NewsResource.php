@@ -38,7 +38,7 @@ class NewsResource extends Resource
             ->schema([
                 SpatieMediaLibraryFileUpload::make('banner')
                     ->columnSpanFull()
-                    ->collection('bannersNews')
+                    ->collection('banners')
                     ->imageEditor()
                     ->required()
                     ->multiple()
@@ -57,7 +57,7 @@ class NewsResource extends Resource
             ->columns([
                 SpatieMediaLibraryImageColumn::make('banner')
                     ->label('Imagem')
-                    ->collection('bannersNews'),
+                    ->collection('banners'),
                 TextColumn::make('title')
                     ->searchable(),
                 TextColumn::make('subtitle'),

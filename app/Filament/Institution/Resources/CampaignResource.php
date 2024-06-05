@@ -42,7 +42,7 @@ class CampaignResource extends Resource
                     Group::make()->schema([
                         SpatieMediaLibraryFileUpload::make('avatar')
                             ->avatar()
-                            ->collection('avatarsCampaigns')
+                            ->collection('avatar')
                             ->imageEditor()
                             ->required()
                             ->validationMessages([
@@ -50,7 +50,7 @@ class CampaignResource extends Resource
                             ])
                             ->hiddenLabel(),
                         SpatieMediaLibraryFileUpload::make('banner')
-                            ->collection('bannersCampaigns')
+                            ->collection('banner')
                             ->imageEditor()
                             ->required()
                             ->validationMessages([
@@ -145,7 +145,7 @@ class CampaignResource extends Resource
                 SpatieMediaLibraryImageColumn::make('avatar')
                     ->label('Avatar')
                     ->circular()
-                    ->collection('avatarsCampaigns'),
+                    ->collection('avatar'),
 
                 TextColumn::make('name')
                     ->label('Nome')

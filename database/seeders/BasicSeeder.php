@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
 use App\Models\Campaign;
 use App\Models\Institution;
 use App\Models\Item;
@@ -38,6 +39,18 @@ class BasicSeeder extends Seeder
             'description' => 'Ação Comunitária Unilasalle RJ',
             'status' => 'active'
         ]);
+
+        $address = Address::create([
+            'street' => 'Rua Gastão Gonçalves, 79',
+            'city' => 'Niterói',
+            'state' => 'RJ',
+            'zipcode' => '24240030',
+            'latitude' => -22.89712126271101,
+            'longitude' => -43.1065840041689,
+        ]);
+
+        $institution->address()->associate($address);
+        $institution->save();
 
         $campaign = Campaign::create([
             'name' => 'Campanha do Agasalho',
