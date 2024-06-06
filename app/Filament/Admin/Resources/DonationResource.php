@@ -16,6 +16,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -104,20 +106,35 @@ class DonationResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Action::make('conclude')
+                        ->color('success')
+                        ->icon('heroicon-o-check-circle')
+                        ->label('Concluir')
+                        ->hidden(fn (Donation $donation) => $donation->status === 'concluded')
+                        ->action(function (Donation $donation) {
+                            $donation->status = 'concluded';
+                            $donation->save();
+                        }),
+                    Action::make('cancel')
+                        ->color('danger')
+                        ->icon('heroicon-o-x-circle')
+                        ->label('Cancelar')
+                        ->action(function (Donation $donation) {
+                            $donation->status = 'concluded';
+                            $donation->save();
+                        }),
+                    Tables\Actions\EditAction::make(),
+                ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+
             ]);
     }
 
     public static function getRelations(): array
     {
-        return [
-        ];
+        return [];
     }
 
     public static function getPages(): array
