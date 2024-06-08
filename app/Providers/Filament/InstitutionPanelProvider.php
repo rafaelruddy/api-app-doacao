@@ -37,7 +37,7 @@ class InstitutionPanelProvider extends PanelProvider
             ->topNavigation()
             ->maxContentWidth('full')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
                 'danger' => Color::Red,
                 'gray' => Color::Zinc,
                 'info' => Color::Blue,
