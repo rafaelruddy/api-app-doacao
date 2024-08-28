@@ -15,7 +15,6 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
-        $middleware->append(HandleInsecureRequests::class);
         $middleware->redirectGuestsTo(function (Request $request) {
             if ($request->is('api/*')) {
                 $errorResponse = [
