@@ -16,5 +16,11 @@ class Item extends Model
      */
     protected $fillable = [
         'name',
+        'status'
+    ];
+
+    const STATUS = [
+        'active' => 'Ativo',
+        'inactive' => 'Inativo',
     ];
 }

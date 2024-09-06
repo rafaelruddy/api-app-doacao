@@ -31,6 +31,10 @@ class DonatorResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-s-face-smile';
 
+    protected static ?string $navigationGroup = 'Doação';
+
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $modelLabel = 'Doadores';
 
 

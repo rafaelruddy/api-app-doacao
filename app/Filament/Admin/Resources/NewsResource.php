@@ -26,6 +26,10 @@ class NewsResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-s-newspaper';
 
+    protected static ?string $navigationGroup = 'Instituição';
+
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $label = 'Notícias';
 
     public static function form(Form $form): Form
@@ -34,7 +38,7 @@ class NewsResource extends Resource
             ->schema([
                 SpatieMediaLibraryFileUpload::make('banner')
                     ->columnSpanFull()
-                    ->collection('bannersNews')
+                    ->collection('banners')
                     ->imageEditor()
                     ->required()
                     ->multiple()
@@ -53,7 +57,7 @@ class NewsResource extends Resource
             ->columns([
                 SpatieMediaLibraryImageColumn::make('banner')
                     ->label('Imagem')
-                    ->collection('bannersNews'),
+                    ->collection('banners'),
                 TextColumn::make('title')
                     ->searchable(),
                 TextColumn::make('subtitle'),

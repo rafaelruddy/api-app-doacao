@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
                 ->modalHeading('Painel')
                 ->icons([
                     'admin' => 'heroicon-o-building-library',
-                    'institution' => 'heroicon-o-shopping-cart',
+                    'institution' => 'heroicon-o-gift',
                 ])
                 ->iconSize(24)
                 ->labels([

@@ -50,6 +50,10 @@ class Donation extends Model
     {
         return $this->belongsToMany(Item::class, 'donated_items')->withPivot('quantity');
     }
+    public function donated_items()
+    {
+        return $this->hasMany(DonatedItem::class, 'donation_id');
+    }
 
     public function scopeConcluded($query)
     {
@@ -60,6 +64,12 @@ class Donation extends Model
         'agended' => 'Agendada',
         'canceled' => 'Cancelada',
         'concluded' => 'Concluída',
+    ];
+
+    const STATUS_COLOR = [
+        'agended' => 'info',
+        'canceled' => 'danger',
+        'concluded' => 'success',
     ];
 
 }

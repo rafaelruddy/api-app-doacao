@@ -23,7 +23,7 @@ class InstitutionController extends Controller
     public function info(Request $request, int $id)
     {
         try {
-            $institution = Institution::with('campaigns')->findOrFail($id);
+            $institution = Institution::with(['campaigns', 'address'])->findOrFail($id);
             return new InstitutionResource($institution);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Instituição não encontrada'], 404);

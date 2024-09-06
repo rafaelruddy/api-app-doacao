@@ -32,11 +32,12 @@ class InstitutionPanelProvider extends PanelProvider
             ->tenantRegistration(RegisterInstitution::class)
             ->tenantProfile(EditInstitutionProfile::class)
             ->brandLogo(asset('images/logos/logo.png'))
+            ->favicon(asset('images/favicon-32x32.png'))
             ->sidebarCollapsibleOnDesktop()
             ->topNavigation()
             ->maxContentWidth('full')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
                 'danger' => Color::Red,
                 'gray' => Color::Zinc,
                 'info' => Color::Blue,

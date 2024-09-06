@@ -20,11 +20,11 @@ class Campaign extends Model implements HasMedia
     protected $fillable = [
         'name',
         'description',
+        'status',
         'start_date',
         'end_date',
         'donation_start_time',
         'donation_end_time',
-        'items_quantity_objective',
         'institution_id',
     ];
 
@@ -34,7 +34,8 @@ class Campaign extends Model implements HasMedia
      * @var array
      */
     protected $casts = [
-        'date' => 'date',
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
 
     /**
@@ -72,4 +73,6 @@ class Campaign extends Model implements HasMedia
                     ->join('donated_items', 'donations.id', '=', 'donated_items.donation_id')
                     ->sum('donated_items.quantity');
     }
+
+
 }

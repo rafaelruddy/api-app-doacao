@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\Institution\Resources;
 
-use App\Filament\Admin\Resources\CampaignResource\Pages;
-use App\Models\Address;
+use App\Filament\Institution\Resources\CampaignResource\Pages;
 use App\Models\Campaign;
-use App\Models\Institution;
 use App\Models\Item;
-use Faker\Provider\ar_EG\Text;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -19,10 +16,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
-use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -36,11 +30,9 @@ class CampaignResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-s-book-open';
 
-    protected static ?string $navigationGroup = 'Instituição';
-
-    protected static ?int $navigationSort = 2;
-
     protected static ?string $modelLabel = 'Campanhas';
+
+    protected static ?string $tenantOwnershipRelationshipName = 'institution';
 
     public static function form(Form $form): Form
     {
@@ -68,10 +60,12 @@ class CampaignResource extends Resource
                     ])->columns(2),
 
                     Select::make('institution_id')
-                        ->relationship(name: 'institution', titleAttribute: 'name')
+                        ->default(Filament::getTenant()->id)
+                        ->relationship(name: 'institution', titleAttribute: 'name',)
                         ->label('Instituição')
                         ->native(false)
-                        ->required(),
+                        ->required()
+                        ->hidden(),
                     TextInput::make('name')
                         ->required()
                         ->unique(ignoreRecord: true)
@@ -121,24 +115,10 @@ class CampaignResource extends Resource
                                 ->numeric()
                                 ->label('Quantidade'),
                         ])
-                        ->grid(2)
                         ->columns(2),
-
-                    Placeholder::make('total')
-                            ->label('Meta Total de itens')
-                        ->content(function (Get $get): string {
-                            $total = 0;
-                            foreach ($get('necessary_items') as $item) {
-                                if ($item['quantity_objective']) {
-                                    $total += $item['quantity_objective'];
-                                }
-                            }
-                            return $total;
-                        })
                 ]),
                 Section::make('Endereços de Coleta')->schema([
                     Repeater::make('addressess')
-
                         ->hiddenLabel()
                         ->relationship()
                         ->defaultItems(0)
@@ -160,7 +140,8 @@ class CampaignResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+        ->query(Campaign::query()->where('institution_id', Filament::getTenant()->id))
+        ->columns([
                 SpatieMediaLibraryImageColumn::make('avatar')
                     ->label('Avatar')
                     ->circular()
@@ -169,7 +150,6 @@ class CampaignResource extends Resource
                 TextColumn::make('name')
                     ->label('Nome')
                     ->searchable(),
-
                 TextColumn::make('institution.name'),
 
                 TextColumn::make('start_date')
@@ -181,7 +161,6 @@ class CampaignResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -191,14 +170,18 @@ class CampaignResource extends Resource
             ]);
     }
 
-
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListCampaigns::route('/'),
             'create' => Pages\CreateCampaign::route('/create'),
-            'view' => Pages\ViewCampaign::route('/{record}'),
             'edit' => Pages\EditCampaign::route('/{record}/edit'),
         ];
     }

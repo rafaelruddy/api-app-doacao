@@ -4,6 +4,7 @@ use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\DonatorController;
 use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +17,7 @@ Route::get('/user', function (Request $request) {
 Route::middleware('auth:donators')->group(function () {
     Route::get('/donator', [DonatorController::class, 'loggedInfo'])->name('Api.Donator.LoggedInfo');
     Route::get('/donations', [DonationController::class, 'list'])->name('Api.Donations.List');
-    Route::post('/donation', [DonationController::class, 'create'])->name('Api.Donation.Create');
+    Route::post('/donations', [DonationController::class, 'create'])->name('Api.Donation.Create');
 });
 
 Route::post('/login', [DonatorController::class, 'login'])->name('Api.Donator.Login');
@@ -41,3 +42,10 @@ Route::get('/campaign/{id}', [CampaignController::class, 'info'])->name('Api.Cam
 */
 Route::get('/news', [NewsController::class, 'list'])->name('Api.News.List');
 Route::get('/news/{id}', [NewsController::class, 'info'])->name('Api.News.Info');
+
+
+/*
+    Items Routes
+*/
+Route::get('/items', [ItemController::class, 'list'])->name('Api.Items.List');
+
