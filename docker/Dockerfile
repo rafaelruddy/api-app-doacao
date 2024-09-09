@@ -21,9 +21,12 @@ RUN install-php-extensions \
     xml \
     libxml \
     zlib \
-	zip
+	zip \
+    opcache
 
 COPY . /app
+
+COPY opcache.ini /usr/local/etc/php/conf.d/
 
 # Defina o comando de inicialização
 
