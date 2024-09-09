@@ -45,12 +45,12 @@ services:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
       - laravel
+    expose:
+      - "3306"
 
 networks:
   laravel:
