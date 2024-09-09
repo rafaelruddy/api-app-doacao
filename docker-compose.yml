@@ -37,6 +37,7 @@ services:
       - app
     ports:
       - "80:80"
+
   db:
     image: mysql:8.0
     container_name: laravel_db
@@ -49,8 +50,22 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - laravel
-    expose:
-      - "3306"
+
+  backup:
+    build:
+      context: .
+      dockerfile: ./docker/backup/Dockerfile
+    container_name: laravel_backup
+    environment:
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=root
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - db
+    volumes:
+      - ./backups:/var/backup
+    networks:
+      - laravel
 
 networks:
   laravel:
