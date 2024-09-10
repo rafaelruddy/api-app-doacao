@@ -26,7 +26,6 @@ RUN install-php-extensions \
 
 COPY . /app
 
-COPY ./opcache.ini /usr/local/etc/php/conf.d/
 
 # Defina o comando de inicialização
 
