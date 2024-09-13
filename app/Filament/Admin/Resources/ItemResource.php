@@ -23,6 +23,8 @@ class ItemResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-s-puzzle-piece';
 
+    protected static ?string $modelLabel = 'Itens';
+
 
     public static function form(Form $form): Form
     {

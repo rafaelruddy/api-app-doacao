@@ -82,7 +82,7 @@ class InstitutionPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
-                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+                // \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ]);
     }
 }

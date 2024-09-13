@@ -22,8 +22,11 @@ class CampaignResource extends JsonResource
             'banner' => $this->getFirstMediaUrl('banner'),
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
+            'donation_start_time' => $this->donation_start_time,
+            'donation_end_time' => $this->donation_end_time,
             'donated_items_objective' => $this->donatedItemsObjective(),
             'donated_items_quantity' => $this->currentDonationQuantity(),
+            'institution' => new InstitutionResource($this->whenLoaded('institution')),
             'addressess' => AddressResource::collection($this->whenLoaded('addressess')),
             'necessary_items' => NecessaryItemResource::collection($this->whenLoaded('necessary_items'))
         ];

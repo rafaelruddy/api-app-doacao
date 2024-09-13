@@ -33,10 +33,10 @@ class CampaignController extends Controller
         }
     }
 
-    public function info(Request $request, int $id)
+    public function info(int $id)
     {
         try {
-            $institution = Campaign::with(['addressess', 'necessary_items'])->findOrFail($id);
+            $institution = Campaign::with(['addressess', 'necessary_items', 'institution'])->findOrFail($id);
             return new CampaignResource($institution);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Campanha não encontrada'], 404);

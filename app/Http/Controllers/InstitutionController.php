@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class InstitutionController extends Controller
 {
-    public function list(Request $request)
+    public function list()
     {
         try {
             $institutions = Institution::with('address')->where('status', 'active')->get();
@@ -20,7 +20,7 @@ class InstitutionController extends Controller
         }
     }
 
-    public function info(Request $request, int $id)
+    public function info(int $id)
     {
         try {
             $institution = Institution::with(['campaigns', 'address'])->findOrFail($id);

@@ -41,11 +41,17 @@ class NewsResource extends Resource
                     ->collection('banners')
                     ->imageEditor()
                     ->required()
+                    ->validationMessages([
+                        'required' => 'O campo :attribute é obrigatório.',
+                    ])
                     ->multiple()
                     ->hiddenLabel(),
-                TextInput::make('title'),
-                TextInput::make('subtitle'),
-                Textarea::make('description'),
+                TextInput::make('title')
+                    ->label('Título'),
+                TextInput::make('subtitle')
+                    ->label('Subtítulo'),
+                Textarea::make('description')
+                    ->label('Descrição'),
                 Hidden::make('created_by')
                     ->default(auth()->id()),
             ]);
@@ -59,8 +65,10 @@ class NewsResource extends Resource
                     ->label('Imagem')
                     ->collection('banners'),
                 TextColumn::make('title')
+                    ->label('Título')
                     ->searchable(),
-                TextColumn::make('subtitle'),
+                TextColumn::make('subtitle')
+                    ->label('Subtítulo'),
                 TextColumn::make('User.name')
                     ->label('Publicado por'),
             ])
