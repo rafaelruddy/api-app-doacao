@@ -14,11 +14,10 @@ class NecessaryItemResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
             'id' => $this->id,
             'name' => $this->item->name,
-            'donated_total' => $this->total_donated(),
+            'donated_total' => (int) $this->item->donated_total,
             'quantity_objective' => $this->quantity_objective
         ];
     }

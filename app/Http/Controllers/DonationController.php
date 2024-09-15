@@ -67,8 +67,8 @@ class DonationController extends Controller
         }
 
         $donationHour = $donationTime->format('H:i');
-        $campaignStartHour = Carbon::parse($campaign->donation_start_time)->format('H:i');
-        $campaignEndHour = Carbon::parse($campaign->donation_end_time)->format('H:i');
+        $campaignStartHour = $campaign->donation_start_time->format('H:i');
+        $campaignEndHour = $campaign->donation_end_time->format('H:i');
 
         return ($donationHour >= $campaignStartHour && $donationHour <= $campaignEndHour);
     }

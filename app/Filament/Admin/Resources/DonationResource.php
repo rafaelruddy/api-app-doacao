@@ -63,6 +63,7 @@ class DonationResource extends Resource
                     ->required(),
                 Section::make('Itens Doados')->schema([
                     Repeater::make('donated_items')
+                        ->label('Itens doados')
                         ->hiddenLabel()
                         ->relationship()
                         ->defaultItems(0)
