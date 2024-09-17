@@ -16,6 +16,7 @@ Route::get('/user', function (Request $request) {
 
 Route::middleware('auth:donators')->group(function () {
     Route::get('/donator', [DonatorController::class, 'loggedInfo'])->name('Api.Donator.LoggedInfo');
+    Route::put('/donator', [DonatorController::class, 'update'])->name('Api.Donator.Update');
     Route::get('/donations', [DonationController::class, 'list'])->name('Api.Donations.List');
     Route::post('/donations', [DonationController::class, 'create'])->name('Api.Donation.Create');
 });

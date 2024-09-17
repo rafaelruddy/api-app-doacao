@@ -93,13 +93,39 @@ class DonatorController extends Controller
         }
     }
 
-    public function loggedInfo(Request $request)
+    public function loggedInfo()
     {
         try {
             $donator = Auth::guard('donators')->user();
             return response()->json(new DonatorResource($donator));
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erro ao pegar informações do usuário: ' . $e], 500);
+        }
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $donator = Auth::guard('donators')->user();
+
+            $request->validate([
+
+                'name' => 'sometimes|string|max:255',
+                'email' => 'sometimes|string|email|max:255|unique:donators',
+                'password' => 'sometimes|string|min:8',
+                'phone' => 'sometimes|string|unique:donators',
+            ]);
+
+            $donator->update($request->except('password'));
+
+            return response()->json([
+                'message' => 'Informações do usuário atualizadas com sucesso!',
+                'data' => new DonatorResource($donator),
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['message' => $e->validator->errors()->first()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao processar a atualização do usuário: ' . $e], 500);
         }
     }
 }

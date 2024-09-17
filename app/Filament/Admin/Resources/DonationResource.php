@@ -93,8 +93,10 @@ class DonationResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('Donator.name'),
-                TextColumn::make('Campaign.name'),
+                TextColumn::make('Donator.name')
+                    ->label('Doador'),
+                TextColumn::make('Campaign.name')
+                    ->label('Campanha'),
                 TextColumn::make('status')
                     ->badge()
                     ->formatStateUsing(fn ($state) => Donation::STATUS[$state])
