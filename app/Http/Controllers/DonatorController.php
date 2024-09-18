@@ -128,4 +128,27 @@ class DonatorController extends Controller
             return response()->json(['message' => 'Erro ao processar a atualização do usuário: ' . $e], 500);
         }
     }
+
+    public function atualizarSenha(Request $request)
+    {
+        try {
+            $donator = Auth::guard('donators')->user();
+
+            $request->validate([
+                'actual_password' => 'required|string',
+                'password' => 'required|string|min:8'
+            ]);
+
+            if (!Hash::check($request->actual_password, $donator->password)) {
+                return response()->json(['message' => 'Senha atual fornecida está incorreta.'], 400);
+            }
+
+            $donator->password = Hash::make($request->password);
+            $donator->save();
+
+            return response()->json(['message' => 'Senha atualizada com sucesso.'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao processar a atualização do usuário: ' . $e], 500);
+        }
+    }
 }
