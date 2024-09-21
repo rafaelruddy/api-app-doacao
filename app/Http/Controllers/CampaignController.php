@@ -26,7 +26,16 @@ class CampaignController extends Controller
                 });
             }
 
-            $campaigns = $campaigns->get();
+            $campaigns = $campaigns
+                            ->withSum([
+                                'donated_items as total_donated_items_quantity' => function ($query) {
+                                    $query->where('donations.status', 'concluded');
+                                }
+                            ], 'donated_items.quantity')
+                            ->withSum([
+                                'necessary_items as total_necessary_items_quantity'
+                            ], 'quantity_objective')
+                            ->get();
             return CampaignResource::collection($campaigns);
         } catch (Exception $e) {
             return response()->json(['message' => 'Erro interno do servidor: ' . $e], 500);
@@ -54,15 +63,15 @@ class CampaignController extends Controller
                 'necessary_items.campaign',
                 'institution'
             ])
-            ->withSum([
-                'donated_items as total_donated_items_quantity' => function ($query) {
-                    $query->where('donations.status', 'concluded');
-                }
-            ], 'donated_items.quantity')
-            ->withSum([
-                'necessary_items as total_necessary_items_quantity'
-            ], 'quantity_objective')
-            ->findOrFail($id);
+                ->withSum([
+                    'donated_items as total_donated_items_quantity' => function ($query) {
+                        $query->where('donations.status', 'concluded');
+                    }
+                ], 'donated_items.quantity')
+                ->withSum([
+                    'necessary_items as total_necessary_items_quantity'
+                ], 'quantity_objective')
+                ->findOrFail($id);
             return new CampaignResource($campaign);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Campanha não encontrada'], 404);

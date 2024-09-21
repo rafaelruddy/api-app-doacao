@@ -9,11 +9,6 @@ use App\Http\Controllers\NewsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-
 Route::middleware('auth:donators')->group(function () {
     Route::get('/donator', [DonatorController::class, 'loggedInfo'])->name('Api.Donator.LoggedInfo');
     Route::put('/donator', [DonatorController::class, 'update'])->name('Api.Donator.Update');

@@ -109,7 +109,6 @@ class DonatorController extends Controller
             $donator = Auth::guard('donators')->user();
 
             $request->validate([
-
                 'name' => 'sometimes|string|max:255',
                 'email' => 'sometimes|string|email|max:255|unique:donators',
                 'password' => 'sometimes|string|min:8',
@@ -129,7 +128,7 @@ class DonatorController extends Controller
         }
     }
 
-    public function atualizarSenha(Request $request)
+    public function updatePassword(Request $request)
     {
         try {
             $donator = Auth::guard('donators')->user();
