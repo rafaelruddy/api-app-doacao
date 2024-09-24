@@ -42,27 +42,30 @@ class DonationResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('donator_id')
-                    ->relationship(name: 'donator', titleAttribute: 'name')
-                    ->label('Doador')
-                    ->native(false)
-                    ->required(),
-                Select::make('campaign_id')
-                    ->relationship(name: 'campaign', titleAttribute: 'name')
-                    ->native(false)
-                    ->label('Campanha'),
-                DateTimePicker::make('date')
-                    ->required()
-                    ->seconds(false)
-                    ->native(false)
-                    ->label('Data de Doação'),
-                Select::make('status')
-                    ->label('Status')
-                    ->options(Donation::STATUS)
-                    ->native(false)
-                    ->required(),
+                Section::make('Dados da Doação')->schema([
+                    Select::make('donator_id')
+                        ->relationship(name: 'donator', titleAttribute: 'name')
+                        ->label('Doador')
+                        ->native(false)
+                        ->required(),
+                    Select::make('campaign_id')
+                        ->relationship(name: 'campaign', titleAttribute: 'name')
+                        ->native(false)
+                        ->label('Campanha'),
+                    DateTimePicker::make('date')
+                        ->required()
+                        ->seconds(false)
+                        ->native(false)
+                        ->label('Data de Doação'),
+                    Select::make('status')
+                        ->label('Status')
+                        ->options(Donation::STATUS)
+                        ->native(false)
+                        ->required(),
+                ])->columns(2),
                 Section::make('Itens Doados')->schema([
                     Repeater::make('donated_items')
+                        ->addActionLabel('Adicionar Item')
                         ->hiddenLabel()
                         ->relationship()
                         ->defaultItems(0)
@@ -96,8 +99,8 @@ class DonationResource extends Resource
                 TextColumn::make('Campaign.name'),
                 TextColumn::make('status')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => Donation::STATUS[$state])
-                    ->color(fn ($state) => Donation::STATUS_COLOR[$state]),
+                    ->formatStateUsing(fn($state) => Donation::STATUS[$state])
+                    ->color(fn($state) => Donation::STATUS_COLOR[$state]),
                 TextColumn::make('date')
                     ->label('Data da Doação')
                     ->dateTime('d/m/Y H:i'),
@@ -111,7 +114,7 @@ class DonationResource extends Resource
                         ->color('success')
                         ->icon('heroicon-o-check-circle')
                         ->label('Concluir')
-                        ->hidden(fn (Donation $donation) => $donation->status === 'concluded')
+                        ->hidden(fn(Donation $donation) => $donation->status === 'concluded')
                         ->action(function (Donation $donation) {
                             $donation->status = 'concluded';
                             $donation->save();
@@ -127,9 +130,7 @@ class DonationResource extends Resource
                     Tables\Actions\EditAction::make(),
                 ]),
             ])
-            ->bulkActions([
-
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array

@@ -7,7 +7,9 @@ use App\Filament\Admin\Resources\NewsResource\RelationManagers;
 use App\Models\News;
 use Faker\Provider\ar_EG\Text;
 use Filament\Forms;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -36,18 +38,28 @@ class NewsResource extends Resource
     {
         return $form
             ->schema([
-                SpatieMediaLibraryFileUpload::make('banner')
-                    ->columnSpanFull()
-                    ->collection('banners')
-                    ->imageEditor()
-                    ->required()
-                    ->multiple()
-                    ->hiddenLabel(),
-                TextInput::make('title'),
-                TextInput::make('subtitle'),
-                Textarea::make('description'),
-                Hidden::make('created_by')
-                    ->default(auth()->id()),
+                Section::make('Dados da Notícia')->schema([
+                    SpatieMediaLibraryFileUpload::make('banner')
+                        ->columnSpanFull()
+                        ->collection('banners')
+                        ->imageEditor()
+                        ->required()
+                        ->multiple()
+                        ->hiddenLabel(),
+                    Group::make()->schema([
+                        TextInput::make('title')
+                            ->label('Título')
+                            ->required(),
+                        TextInput::make('subtitle')
+                            ->label('Subtítulo'),
+                    ])->columns(2),
+                    Textarea::make('description')
+                        ->label('Descrição')
+                        ->rows(5)
+                        ->required(),
+                    Hidden::make('created_by')
+                        ->default(auth()->id()),
+                ])
             ]);
     }
 
