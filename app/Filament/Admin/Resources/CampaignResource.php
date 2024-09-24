@@ -65,43 +65,46 @@ class CampaignResource extends Resource
                                 'required' => 'O campo :attribute é obrigatório.',
                             ])
                             ->hiddenLabel(),
+                        Select::make('institution_id')
+                            ->relationship(name: 'institution', titleAttribute: 'name')
+                            ->label('Instituição')
+                            ->native(false)
+                            ->required(),
+                        TextInput::make('name')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->label('Nome'),
+                        DateTimePicker::make('start_date')
+                            ->required()
+                            ->native(false)
+                            ->label('Data do Início'),
+                        DateTimePicker::make('end_date')
+                            ->required()
+                            ->minDate(now())
+                            ->after('start_date')
+                            ->native(false)
+                            ->label('Data do Término'),
+                        TimePicker::make('donation_start_time')
+                            ->seconds(false)
+                            ->required()
+                            ->label('Hora inicial das doações'),
+                        TimePicker::make('donation_end_time')
+                            ->seconds(false)
+                            ->required()
+                            ->after('donation_start_time')
+                            ->label('Hora final das doações'),
                     ])->columns(2),
 
-                    Select::make('institution_id')
-                        ->relationship(name: 'institution', titleAttribute: 'name')
-                        ->label('Instituição')
-                        ->native(false)
-                        ->required(),
-                    TextInput::make('name')
-                        ->required()
-                        ->unique(ignoreRecord: true)
-                        ->label('Nome'),
                     Textarea::make('description')
                         ->required()
-                        ->label('Descrição'),
-                    DateTimePicker::make('start_date')
-                        ->required()
-                        ->native(false)
-                        ->label('Data do Início'),
-                    DateTimePicker::make('end_date')
-                        ->required()
-                        ->minDate(now())
-                        ->after('start_date')
-                        ->native(false)
-                        ->label('Data do Término'),
-                    TimePicker::make('donation_start_time')
-                        ->seconds(false)
-                        ->required()
-                        ->label('Hora que começa a aceitar as doações'),
-                    TimePicker::make('donation_end_time')
-                        ->seconds(false)
-                        ->required()
-                        ->after('donation_start_time')
-                        ->label('Hora que termina de aceitar as doações'),
-                ]),
+                        ->label('Descrição')
+                        ->rows(5),
+
+                ])->columns(1),
                 Section::make('Itens Necessários')->schema([
                     Repeater::make('necessary_items')
                         ->hiddenLabel()
+                        ->addActionLabel('Adicionar Item')
                         ->relationship()
                         ->defaultItems(0)
                         ->live()
@@ -125,7 +128,7 @@ class CampaignResource extends Resource
                         ->columns(2),
 
                     Placeholder::make('total')
-                            ->label('Meta Total de itens')
+                        ->label('Meta Total de itens')
                         ->content(function (Get $get): string {
                             $total = 0;
                             foreach ($get('necessary_items') as $item) {
@@ -138,16 +141,18 @@ class CampaignResource extends Resource
                 ]),
                 Section::make('Endereços de Coleta')->schema([
                     Repeater::make('addressess')
-
+                        ->addActionLabel('Adicionar Endereço')
                         ->hiddenLabel()
                         ->relationship()
                         ->defaultItems(0)
                         ->schema([
                             Group::make()->schema([
                                 TextInput::make('street')->required()->label('Rua'),
+                                TextInput::make('zipcode')->required()->label('CEP'),
                                 TextInput::make('city')->required()->label('Cidade'),
                                 TextInput::make('state')->required()->label('Estado'),
-                                TextInput::make('zipcode')->required()->label('CEP'),
+                                TextInput::make('neighborhood')->required()->label('Bairro'),
+                                TextInput::make('number')->required()->label('Número'),
                                 TextInput::make('latitude')->required()->label('Latitude'),
                                 TextInput::make('longitude')->required()->label('Longitude'),
                             ])->columns(2),
@@ -198,7 +203,6 @@ class CampaignResource extends Resource
         return [
             'index' => Pages\ListCampaigns::route('/'),
             'create' => Pages\CreateCampaign::route('/create'),
-            'view' => Pages\ViewCampaign::route('/{record}'),
             'edit' => Pages\EditCampaign::route('/{record}/edit'),
         ];
     }

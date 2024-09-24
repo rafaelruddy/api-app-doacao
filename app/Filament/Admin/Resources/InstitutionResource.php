@@ -39,16 +39,22 @@ class InstitutionResource extends Resource
     {
         return $form
             ->schema([
-                Group::make()->schema([
+                Section::make('Dados')->schema([
 
-                    Section::make('Dados')->schema([
-
+                    Group::make()->schema([
                         SpatieMediaLibraryFileUpload::make('avatar')
                             ->avatar()
-                            ->collection('avatar'),
+                            ->circleCropper()
+                            ->collection('avatar')
+                            ->required(),
 
                         SpatieMediaLibraryFileUpload::make('banner')
-                            ->collection('banner'),
+                            ->collection('banner')
+                            ->required(),
+
+                    ])->columns(2),
+
+                    Group::make()->schema([
 
                         TextInput::make('name')
                             ->label('Nome')
@@ -60,11 +66,10 @@ class InstitutionResource extends Resource
                             ->required()
                             ->stripCharacters([' ', '-'])
                             ->mask(RawJs::make(<<<'JS'
-                                '+99 99 99999-9999'
-                            JS)),
+                                        '+99 99 99999-9999'
+                                    JS)),
 
-                        Textarea::make('description')
-                        ->label('Descrição'),
+
 
                         Select::make('status')
                             ->label('Status')
@@ -72,7 +77,13 @@ class InstitutionResource extends Resource
                             ->native(false)
                             ->required(),
 
-                    ])->columns(2),
+                    ])->columns(3),
+                    Textarea::make('description')
+                        ->label('Descrição')
+                        ->rows(5)
+                        ->required(),
+
+
 
                 ])->columnSpanFull(),
 
@@ -117,6 +128,7 @@ class InstitutionResource extends Resource
 
                 SpatieMediaLibraryImageColumn::make('avatar')
                     ->label('Avatar')
+                    ->circular()
                     ->collection('avatar'),
 
                 TextColumn::make('name')
@@ -130,8 +142,8 @@ class InstitutionResource extends Resource
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->formatStateUsing(fn ($state) => Institution::STATUS[$state])
-                    ->color(fn ($state) => Institution::STATUS_COLOR[$state]),
+                    ->formatStateUsing(fn($state) => Institution::STATUS[$state])
+                    ->color(fn($state) => Institution::STATUS_COLOR[$state]),
 
             ])
             ->filters([
