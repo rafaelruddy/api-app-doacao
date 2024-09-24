@@ -23,4 +23,9 @@ class Item extends Model
         'active' => 'Ativo',
         'inactive' => 'Inativo',
     ];
+
+    public function donations()
+    {
+        return $this->belongsToMany(Donation::class, 'donated_items')->withPivot('quantity');
+    }
 }

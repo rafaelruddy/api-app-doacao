@@ -71,8 +71,10 @@ class NewsResource extends Resource
                     ->label('Imagem')
                     ->collection('banners'),
                 TextColumn::make('title')
+                    ->label('Título')
                     ->searchable(),
-                TextColumn::make('subtitle'),
+                TextColumn::make('subtitle')
+                    ->label('Subtítulo'),
                 TextColumn::make('User.name')
                     ->label('Publicado por'),
             ])

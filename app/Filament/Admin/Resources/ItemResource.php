@@ -23,6 +23,8 @@ class ItemResource extends Resource
 
     protected static ?string $activeNavigationIcon = 'heroicon-s-puzzle-piece';
 
+    protected static ?string $modelLabel = 'Itens';
+
 
     public static function form(Form $form): Form
     {
@@ -50,7 +52,6 @@ class ItemResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

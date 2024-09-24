@@ -175,7 +175,8 @@ class CampaignResource extends Resource
                     ->label('Nome')
                     ->searchable(),
 
-                TextColumn::make('institution.name'),
+                TextColumn::make('institution.name')
+                    ->label("Instituição"),
 
                 TextColumn::make('start_date')
                     ->label('Início')
@@ -186,7 +187,6 @@ class CampaignResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

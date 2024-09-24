@@ -20,7 +20,8 @@ class NewsResource extends JsonResource
             'description' => $this->description,
             'banners' => $this->getMedia('banners')->map(function ($media) {
                 return $media->getUrl(); // Usa o método getUrl para obter a URL completa da imagem
-            })
+            }),
+            'created_at' => $this->created_at
         ];
     }
 }

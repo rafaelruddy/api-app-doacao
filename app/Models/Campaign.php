@@ -34,8 +34,10 @@ class Campaign extends Model implements HasMedia
      * @var array
      */
     protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+        'donation_start_time' => 'datetime:H:i',
+        'donation_end_time' => 'datetime:H:i',
     ];
 
     /**
@@ -56,23 +58,21 @@ class Campaign extends Model implements HasMedia
         return $this->hasMany(Donation::class);
     }
 
+    public function donated_items()
+    {
+        return $this->hasManyThrough(
+            DonatedItem::class,
+            Donation::class,
+            'campaign_id',
+            'donation_id',
+            'id',
+            'id'
+        );
+    }
+
     public function necessary_items()
     {
         return $this->hasMany(NecessaryItem::class);
     }
-
-    public function donatedItemsObjective()
-    {
-        return (int) $this->necessary_items()
-                        ->sum('quantity_objective');
-    }
-
-    public function currentDonationQuantity()
-    {
-        return (int) $this->donations()
-                    ->join('donated_items', 'donations.id', '=', 'donated_items.donation_id')
-                    ->sum('donated_items.quantity');
-    }
-
 
 }

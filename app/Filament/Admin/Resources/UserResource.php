@@ -152,8 +152,8 @@ class UserResource extends Resource
                 getInformacaoPessoal()->visibleOn('create'),
                 getPasswordInput()->visibleOn('create'),
                 // getPermissaoInput()->visibleOn('create'),
-                getInformacaoPessoal()->disabled(fn (Get $get) => $get('Permissão')[0] == '1' && !Auth()->user()->hasRole('Super'))->visibleOn('edit'),
-                getPasswordInput()->visibleOn('edit')->disabled(fn (Get $get) => $get('Permissão')[0] == '1' && !Auth()->user()->hasRole('Super')),
+                getInformacaoPessoal()->disabled(!Auth()->user()->hasRole('Super'))->visibleOn('edit'),
+                getPasswordInput()->visibleOn('edit')->disabled(!Auth()->user()->hasRole('Super')),
                 // getPermissaoInput()->disabled(fn (Get $get) => $get('Permissão')[0] == '1' && !Auth()->user()->hasRole('Super'))->visibleOn('edit'),
             ]);
     }
@@ -167,8 +167,7 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
