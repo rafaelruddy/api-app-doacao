@@ -5,7 +5,7 @@ services:
         build:
             context: .
             dockerfile: ./docker/Dockerfile
-        entrypoint: php artisan octane:frankenphp --max-requests=1 --host=admin.doacao.tech --https --http-redirect
+        entrypoint: php artisan octane:frankenphp --max-requests=1 --https --http-redirect
         environment:
             - APP_ENV=production
             - APP_DEBUG=false
