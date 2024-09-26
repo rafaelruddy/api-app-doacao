@@ -24,6 +24,7 @@ RUN install-php-extensions \
 	zip \
     opcache
 
+
 COPY . /app
 
 
