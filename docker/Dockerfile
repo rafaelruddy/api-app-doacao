@@ -2,8 +2,6 @@
 FROM dunglas/frankenphp
 
 
-ENV SERVER_NAME=admin.doacao.tech
-
 RUN install-php-extensions \
 	pdo_mysql \
 	gd \
