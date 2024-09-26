@@ -2,12 +2,10 @@ version: "3.8"
 
 services:
     web:
-        image: dunglas/frankenphp
-        restart: always
         build:
             context: .
             dockerfile: ./docker/Dockerfile
-        entrypoint: php artisan octane:frankenphp --max-requests=1 --https --http-redirect
+        entrypoint: php artisan octane:frankenphp
         environment:
             - APP_ENV=production
             - APP_DEBUG=false
@@ -17,7 +15,7 @@ services:
             - DB_USERNAME=${DB_USERNAME}
             - DB_PASSWORD=${DB_PASSWORD}
         ports:
-            - '${APP_PORT:-80}:80'
+            - "80:80"
             - "443:443" # HTTPS
             - "443:443/udp" # HTTP/3
         volumes:

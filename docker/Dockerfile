@@ -2,8 +2,7 @@
 FROM dunglas/frankenphp
 
 
-ENV SERVER_NAME=admin.doacao.tech
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
 
 RUN install-php-extensions \
 	pdo_mysql \
@@ -28,10 +27,10 @@ RUN install-php-extensions \
 	zip \
     opcache
 
+ENV SERVER_NAME=admin.doacao.tech
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 COPY . /app
 
-
-# Defina o comando de inicialização
 
 ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
