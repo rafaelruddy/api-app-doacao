@@ -2,6 +2,8 @@ version: "3.8"
 
 services:
     web:
+        image: dunglas/frankenphp
+        restart: always
         build:
             context: .
             dockerfile: ./docker/Dockerfile
