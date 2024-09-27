@@ -25,6 +25,10 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
     && docker-php-ext-install intl \
     && docker-php-ext-enable opcache
 
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+&& chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+
 # Configuração do OPcache
 COPY ./docker/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
