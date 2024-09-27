@@ -15,7 +15,8 @@ services:
             - DB_USERNAME=${DB_USERNAME}
             - DB_PASSWORD=${DB_PASSWORD}
         ports:
-            - "8000"
+            - "8080:80"    # Acesse o serviço na porta 8080 do host
+            - "443:443"    # HTTPS
         volumes:
             - .:/app
         networks:
