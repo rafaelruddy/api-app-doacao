@@ -23,7 +23,7 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
     && docker-php-ext-install intl \
     && docker-php-ext-enable opcache
 
-COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
