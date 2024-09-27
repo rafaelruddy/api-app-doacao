@@ -47,8 +47,9 @@ RUN composer install --optimize-autoloader --no-dev
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
 
 # Ajustar permissões
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
 
 # Expor a porta
 EXPOSE 9000
