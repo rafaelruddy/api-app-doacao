@@ -1,7 +1,6 @@
 # Use a imagem base PHP 8.2 slim
 FROM dunglas/frankenphp
 
-
 RUN install-php-extensions \
 	pdo_mysql \
 	gd \
@@ -25,9 +24,9 @@ RUN install-php-extensions \
 	zip \
     opcache
 
-
-
 COPY . /app
 
+
+# Defina o comando de inicialização
 
 ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
