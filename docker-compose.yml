@@ -14,11 +14,10 @@ services:
             - DB_DATABASE=${DB_DATABASE}
             - DB_USERNAME=${DB_USERNAME}
             - DB_PASSWORD=${DB_PASSWORD}
-        ports:
-            - "8080:80"    # Acesse o serviço na porta 8080 do host
-            - "443:443"    # HTTPS
         volumes:
             - .:/app
+        ports:
+            - "8000:8000"
         networks:
             - laravel
         depends_on:
@@ -45,7 +44,7 @@ services:
             - "443:443"
         volumes:
             - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-            - ./docker/cert:/etc/letsencryp
+            - ./docker/cert:/etc/ssl/certs
         depends_on:
             - web
         networks:
