@@ -31,6 +31,7 @@ services:
     volumes:
       - .:/var/www/html:ro
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/cert:/etc/ssl/certs
     networks:
       - laravel
     depends_on:
