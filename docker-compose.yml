@@ -5,7 +5,7 @@ services:
         build:
             context: .
             dockerfile: ./docker/Dockerfile
-        entrypoint: php artisan octane:frankenphp --max-requests=1
+        entrypoint: php artisan octane:frankenphp --max-requests=1 --admin-port=2019 --port=8000
         environment:
             - APP_ENV=production
             - APP_DEBUG=false
