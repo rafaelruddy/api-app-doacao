@@ -105,8 +105,15 @@ class InstitutionResource extends Resource
                             ->label('CEP')
                             ->stripCharacters(['-'])
                             ->mask(RawJs::make(<<<'JS'
-                                '99999-999'
-                            JS)),
+                                    '99999-999'
+                                JS)),
+                                
+                        TextInput::make('number')
+                            ->label('Número'),
+
+                        TextInput::make('neighborhood')
+                            ->label('Bairro'),
+
 
                         TextInput::make('latitude')
                             ->label('Latitude'),
