@@ -21,6 +21,8 @@ class Address extends Model
         'zipcode',
         'latitude',
         'longitude',
+        'number',
+        'neighborhood',
     ];
 
     /**
