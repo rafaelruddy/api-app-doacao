@@ -95,6 +95,7 @@ class UserResource extends Resource
                         Group::make([
                             TextInput::make('password')
                                 ->placeholder('*********')
+                                ->revealable()
                                 ->label('Senha')
                                 ->password()
                                 ->nullable()
@@ -114,6 +115,7 @@ class UserResource extends Resource
                             TextInput::make('password_confirmation')
                                 ->placeholder('*********')
                                 ->password()
+                                ->revealable()
                                 ->label('Confirmar senha')
                                 ->required(fn (string $context): bool => $context === 'create')
                                 ->rules([
@@ -152,8 +154,8 @@ class UserResource extends Resource
                 getInformacaoPessoal()->visibleOn('create'),
                 getPasswordInput()->visibleOn('create'),
                 // getPermissaoInput()->visibleOn('create'),
-                getInformacaoPessoal()->disabled(!Auth()->user()->hasRole('Super'))->visibleOn('edit'),
-                getPasswordInput()->visibleOn('edit')->disabled(!Auth()->user()->hasRole('Super')),
+                getInformacaoPessoal(),
+                getPasswordInput(),
                 // getPermissaoInput()->disabled(fn (Get $get) => $get('Permissão')[0] == '1' && !Auth()->user()->hasRole('Super'))->visibleOn('edit'),
             ]);
     }
@@ -188,8 +190,8 @@ class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
-            'view' => Pages\ViewUser::route('/{record}'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
+            // 'view' => Pages\ViewUser::route('/{record}'),
         ];
     }
 }
