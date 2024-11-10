@@ -17,6 +17,7 @@ class DonationResource extends JsonResource
         return [
             'id' => $this->id,
             'donation_time' => $this->date,
+            'observation' => $this->observation ?? "Nenhuma Observação",
             'campaign' => new CampaignResource($this->whenLoaded('campaign')),
             'items' => DonatedItemResource::collection($this->whenLoaded('items')),
             'status' => $this->status,

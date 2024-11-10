@@ -19,6 +19,7 @@ class Donation extends Model
         'donator_id',
         'date',
         'status',
+        'observation',
     ];
 
     /**

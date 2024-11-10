@@ -30,6 +30,7 @@ class DonationController extends Controller
             $request->validate([
                 'campaign_id' => 'required|exists:campaigns,id',
                 'donation_time' => 'required|date_format:Y-m-d H:i:s',
+                'observation' => 'nullable|string',
                 'items' => 'required|array',
                 'items.*.id' => 'required|exists:items,id',
                 'items.*.quantity' => 'required|integer|min:1',
@@ -46,6 +47,7 @@ class DonationController extends Controller
             $donation = Donation::create([
                 'campaign_id' => $request->campaign_id,
                 'donator_id' => $donator->id,
+                'observation' => $request->observation,
                 'date' => $request->donation_time,
                 'status' => 'agended',
             ]);

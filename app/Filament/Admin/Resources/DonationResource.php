@@ -12,6 +12,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -54,14 +55,25 @@ class DonationResource extends Resource
                         ->label('Campanha'),
                     DateTimePicker::make('date')
                         ->required()
+                        ->placeholder('00/00/0000 00:00:00')
                         ->seconds(false)
                         ->native(false)
+                        ->displayFormat('d/m/Y H:i')
                         ->label('Data de Doação'),
+
                     Select::make('status')
                         ->label('Status')
                         ->options(Donation::STATUS)
                         ->native(false)
                         ->required(),
+
+                    Textarea::make('observation')
+                        ->columnSpanFull()
+                        ->rows(10)
+                        ->maxLength(1000)
+                        ->cols(20)
+                        ->label('Observação')
+                        ->autosize()
                 ])->columns(2),
                 Section::make('Itens Doados')->schema([
                     Repeater::make('donated_items')
