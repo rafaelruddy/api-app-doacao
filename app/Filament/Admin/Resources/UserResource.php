@@ -9,6 +9,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -18,6 +19,7 @@ use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
@@ -63,15 +65,15 @@ class UserResource extends Resource
                             ->required()
                             ->maxLength(255),
 
-            //                 TextInput::make('phone')
-            //                 ->unique(ignoreRecord: true)
-            //                 ->label('Telefone')
-            //                 ->tel()
-            //                 ->required()
-            //                 ->stripCharacters([' ', '-'])
-            //                 ->mask(RawJs::make(<<<'JS'
-            //               '+99 99 99999-9999'
-            // JS)),
+                        //                 TextInput::make('phone')
+                        //                 ->unique(ignoreRecord: true)
+                        //                 ->label('Telefone')
+                        //                 ->tel()
+                        //                 ->required()
+                        //                 ->stripCharacters([' ', '-'])
+                        //                 ->mask(RawJs::make(<<<'JS'
+                        //               '+99 99 99999-9999'
+                        // JS)),
                     ]),
 
                 ]);
@@ -100,16 +102,16 @@ class UserResource extends Resource
                                 ->password()
                                 ->nullable()
                                 ->confirmed()
-                                ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
-                                ->dehydrated(fn (?string $state): bool => filled($state))
-                                ->required(fn (string $context): bool => $context === 'create')
+                                ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
+                                ->dehydrated(fn(?string $state): bool => filled($state))
+                                ->required(fn(string $context): bool => $context === 'create')
                                 ->rules([
                                     'min:8',
                                     'string',
                                     'confirmed', // Campo de confirmação da senha
                                     'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
                                 ])
-                                ->autocomplete(false)->disabled(fn (Get $get): bool => !$get('passwordDisable')),
+                                ->autocomplete(false)->disabled(fn(Get $get): bool => !$get('passwordDisable')),
                         ]),
                         Group::make([
                             TextInput::make('password_confirmation')
@@ -117,37 +119,27 @@ class UserResource extends Resource
                                 ->password()
                                 ->revealable()
                                 ->label('Confirmar senha')
-                                ->required(fn (string $context): bool => $context === 'create')
+                                ->required(fn(string $context): bool => $context === 'create')
                                 ->rules([
                                     'min:8',
                                 ])
-                                ->autocomplete(false)->disabled(fn (Get $get): bool => !$get('passwordDisable')),
+                                ->autocomplete(false)->disabled(fn(Get $get): bool => !$get('passwordDisable')),
                         ]),
                     ]),
                 ]);
         }
-        // function getPermissaoInput(): component
-        // {
-        //     return Section::make('Permissões menu')->columns(2)
-        //         ->schema([
-        //             Select::make('Permissão')
-        //                 ->label('Função')
-        //                 ->native(false)
-        //                 ->relationship(
-        //                     name: 'roles',
-        //                     titleAttribute: 'title',
-        //                     modifyQueryUsing: fn (Builder $query) => Auth()->user()->hasRole('Super') ? null : $query->where('title', '!=', 'Inativo')->where('title', '!=', 'Super'),
-        //                 ),
-
-        //             Select::make('status')
-        //                 ->native(false)
-        //                 ->default('Ativo')
-        //                 ->options([
-        //                     'Ativo' => 'Ativo',
-        //                     'Inativo' => 'Inativo',
-        //                 ]),
-        //         ]);
-        // }
+        function getPermissaoInput(): component
+        {
+            return Section::make('Permissões menu')->columns(2)
+                ->schema([
+                    Select::make('roles')
+                        ->relationship('roles', 'name')
+                        ->multiple()
+                        ->preload()
+                        ->columnSpanFull()
+                        ->searchable(),
+                ]);
+        }
 
         return $form
             ->schema([
@@ -156,7 +148,7 @@ class UserResource extends Resource
                 // getPermissaoInput()->visibleOn('create'),
                 getInformacaoPessoal(),
                 getPasswordInput(),
-                // getPermissaoInput()->disabled(fn (Get $get) => $get('Permissão')[0] == '1' && !Auth()->user()->hasRole('Super'))->visibleOn('edit'),
+                getPermissaoInput()->disabled(fn(Get $get) => !Auth()->user()->hasRole('super_admin'))->visibleOn('edit'),
             ]);
     }
     public static function table(Table $table): Table
