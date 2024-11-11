@@ -16,7 +16,7 @@ class DonationController extends Controller
     {
         try {
             $donator = Auth::guard('donators')->user();
-            $donations = $donator->donations()->with(['campaign', 'items'])->get();
+            $donations = $donator->donations()->with(['campaign', 'items'])->orderBy('created_at', 'desc')->get();
 
             return DonationResource::collection($donations);
         } catch (\Exception $e) {
