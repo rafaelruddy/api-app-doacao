@@ -143,12 +143,9 @@ class UserResource extends Resource
 
         return $form
             ->schema([
-                getInformacaoPessoal()->visibleOn('create'),
-                getPasswordInput()->visibleOn('create'),
-                // getPermissaoInput()->visibleOn('create'),
                 getInformacaoPessoal(),
                 getPasswordInput(),
-                getPermissaoInput()->disabled(fn(Get $get) => !Auth()->user()->hasRole('super_admin'))->visibleOn('edit'),
+                getPermissaoInput()->disabled(fn(Get $get) => !Auth()->user()->hasRole('super_admin')),
             ]);
     }
     public static function table(Table $table): Table

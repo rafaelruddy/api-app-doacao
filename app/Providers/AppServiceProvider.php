@@ -3,8 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Donation;
+use App\Models\Role;
 use App\Observers\DonationObserver;
+use App\Policies\RolePolicy;
 use BezhanSalleh\PanelSwitch\PanelSwitch;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        Gate::policy(Role::class, RolePolicy::class);
+
         //
         PanelSwitch::configureUsing(function (PanelSwitch $panelSwitch) {
             $panelSwitch

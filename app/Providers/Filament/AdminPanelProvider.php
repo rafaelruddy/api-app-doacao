@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use Filament\Http\Middleware\Authenticate;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationItem;
@@ -60,7 +61,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+                FilamentShieldPlugin::make(),
             ])
             ->authMiddleware([
                 Authenticate::class,
